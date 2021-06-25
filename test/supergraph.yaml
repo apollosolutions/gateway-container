@@ -1,0 +1,9 @@
+subgraphs:
+  astronauts:
+    routing_url: http://astronauts:4001/graphql
+    schema:
+      subgraph_url: http://localhost:4001/graphql
+  missions:
+    routing_url: http://missions:4002/graphql
+    schema:
+      subgraph_url: http://localhost:4002/graphql

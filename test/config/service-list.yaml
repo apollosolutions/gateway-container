@@ -1,0 +1,7 @@
+gateway:
+  debug: true
+  serviceList:
+    - name: astronauts
+      url: http://astronauts:4001/graphql
+    - name: missions
+      url: http://missions:4002/graphql

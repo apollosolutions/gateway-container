@@ -1,0 +1,30 @@
+services:
+  gateway:
+    build: ../
+    volumes:
+      - ./config:/etc/apollo
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - APOLLO_GRAPH_REF
+      - APOLLO_KEY
+      - APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT
+      - CONFIG_FILE
+      - PROCESS_COUNT
+      - SUPERGRAPH_SDL_PATH
+    depends_on:
+      - astronauts
+      - missions
+  astronauts:
+    build: ./services/astronauts
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+  missions:
+    build: ./services/missions
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002

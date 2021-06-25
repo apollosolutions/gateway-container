@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "https://www.apollographql.com/gateway-container",
+  "title": "Apollo Gateway Container Config",
+  "description": "Configuration for Apollo Server and Apollo Gateway running inside a Docker container",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "debug": {
+          "type": "boolean"
+        },
+        "cors": {
+          "anyOf": [
+            { "type": "boolean" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "origin": {
+                  "anyOf": [
+                    { "type": "string" },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
+                },
+                "methods": {
+                  "anyOf": [
+                    { "type": "string" },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
+                },
+                "allowedHeaders": {
+                  "anyOf": [
+                    { "type": "string" },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
+                },
+                "exposedHeaders": {
+                  "anyOf": [
+                    { "type": "string" },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  ]
+                },
+                "credentials": {
+                  "type": "boolean"
+                },
+                "maxAge": {
+                  "type": "number"
+                },
+                "preflightContinue": {
+                  "type": "boolean"
+                },
+                "optionsSuccessStatus": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "introspection": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gateway": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "debug": {
+          "type": "boolean"
+        },
+        "serviceList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "url"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "supergraphSdlPath": {
+          "type": "string"
+        },
+        "forwardHeaders": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "as": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
