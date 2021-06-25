@@ -1,10 +1,11 @@
 import { readFile } from "fs/promises";
 import { existsSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
 import { load } from "js-yaml";
 import Ajv from "ajv";
 import { convertGatewayConfig } from "./gateway.js";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import { convertServerConfig } from "./server.js";
 
 const CONFIG_FILE = "/etc/apollo/gateway.yaml";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -17,7 +18,7 @@ export async function fetchConfig() {
 
   if (!existsSync(file)) {
     return {
-      server: {},
+      server: convertServerConfig({}),
       gateway: await convertGatewayConfig({}),
     };
   }
@@ -29,13 +30,15 @@ export async function fetchConfig() {
 
   if (validate(yaml)) {
     return {
-      server: yaml.server ?? {},
+      server: convertServerConfig(yaml),
       gateway: await convertGatewayConfig(yaml),
     };
   }
 
   throw new Error(
-    `Invalid config ${file}\n${JSON.stringify(validate.errors ?? [], null, 2)}`
+    `Invalid config ${file}\n${(validate.errors ?? [])
+      .map((e) => ` - ${e.schemaPath}: ${e.message}`)
+      .join("\n")}\n`
   );
 }
 
@@ -43,7 +46,7 @@ export async function fetchConfig() {
  * @param {any} config
  */
 async function getValidator(config) {
-  const ajv = new Ajv();
+  const ajv = new Ajv({ allErrors: true });
 
   const schemaJSON = await readFile(
     resolve(__dirname, "configschema.json"),

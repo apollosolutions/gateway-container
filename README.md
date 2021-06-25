@@ -7,15 +7,12 @@
   - [-] `supergraphSdl`
   - [ ] `introspectionHeaders`
   - [-] `debug`
-  - [ ] ~~`serviceHealthCheck`~~
   - [-] Managed federation
   - [ ] Request header propagation
     - [-] Simple
     - [ ] Per-subgraph
     - [ ] Aggregation?
   - [ ] Uplink fallback
-  - [ ] fetcher configuration
-    - [ ] ...
 - [ ] Server configuration
   - [-] `listen({ url, port })`
   - [-] CORS
@@ -23,13 +20,12 @@
   - [-] `debug`
   - [ ] health check
   - [ ] liveness check
-  - [ ] Usage reporting
+  - [-] Usage reporting
   - [ ] APQ
   - [ ] Validation
     - [ ] Operation depth limiting
   - [ ] Cache control
   - [ ] Error formatting
-  - [ ] `stopGracePeriodMillis`
   - [ ] Landing page
   - [ ] Global Agent proxy configuration
 
@@ -48,3 +44,46 @@
 - [-] URL [default=localhost]
 - [-] CONFIG_FILE [default=/etc/apollo/gateway.yaml]
 - [-] SUPERGRAPH_SDL_PATH
+
+## Unsupported Configuration
+
+### Server
+
+- `modules` - not relevant with federation
+- `typeDefs` - not relevant with federation
+- `parseOptions` - not relevant with federation
+- `resolvers` - not relevant with federation
+- `schema` - not relevant with federation
+- `context` - preconfigured
+- `mocks` - not relevant with federation
+- `plugins` - preconfigured
+- `persistedQueries` TODO
+- `onHealthCheck`
+- `experimental_approximateDocumentStoreMiB`
+- `stopGracePeriodMillis`
+- `stopOnTerminationSignals`
+- `apollo` - use environment variables
+
+### Gateway
+
+- `logger`
+- `fetcher`
+- `serviceHealthCheck` - not a best practice
+- `localServiceList` - for testing
+- `introspectionHeaders` TODO
+- `experimental_updateServiceDefinitions`
+- `experimental_updateSupergraphSdl`
+- `__exposeQueryPlanExperimental`
+
+### Usage Reporting Plugin
+
+- `sendVariableValues: { transform: () => {} }`
+- `rewriteError`
+- `includeRequest`
+- `generateClientInfo`
+- `overrideReportedSchema`
+- `sendUnexecutableOperationDocuments`
+- `requestAgent`
+- `fetcher`
+- `logger`
+- `reportErrorFunction`

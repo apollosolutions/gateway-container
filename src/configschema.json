@@ -88,6 +88,103 @@
         },
         "introspection": {
           "type": "boolean"
+        },
+        "usageReporting": {
+          "anyOf": [
+            { "type": "boolean", "default": true },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "sendVariableValues": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["none"],
+                      "properties": {
+                        "none": { "type": "boolean" }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["all"],
+                      "properties": {
+                        "all": { "type": "boolean" }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["onlyNames"],
+                      "properties": {
+                        "onlyNames": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["exceptNames"],
+                      "properties": {
+                        "exceptNames": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "sendHeaders": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["none"],
+                      "properties": { "none": { "type": "boolean" } }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["all"],
+                      "properties": { "all": { "type": "boolean" } }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["onlyNames"],
+                      "properties": {
+                        "onlyNames": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["exceptNames"],
+                      "properties": {
+                        "exceptNames": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "sendUnexecutableOperationDocuments": { "type": "boolean" },
+                "sendReportsImmediately": { "type": "boolean" },
+                "reportIntervalMs": { "type": "number" },
+                "maxUncompressedReportSize": { "type": "number" },
+                "maxAttempts": { "type": "number" },
+                "minimumRetryDelayMs": { "type": "number" }
+              }
+            }
+          ]
         }
       }
     },

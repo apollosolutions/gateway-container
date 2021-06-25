@@ -26,6 +26,42 @@ export interface ApolloGatewayContainerConfig {
           optionsSuccessStatus?: number;
         };
     introspection?: boolean;
+    usageReporting?:
+      | boolean
+      | {
+          sendVariableValues?:
+            | {
+                none: boolean;
+              }
+            | {
+                all: boolean;
+              }
+            | {
+                onlyNames: string[];
+              }
+            | {
+                exceptNames: string[];
+              };
+          sendHeaders?:
+            | {
+                none: boolean;
+              }
+            | {
+                all: boolean;
+              }
+            | {
+                onlyNames: string[];
+              }
+            | {
+                exceptNames: string[];
+              };
+          sendUnexecutableOperationDocuments?: boolean;
+          sendReportsImmediately?: boolean;
+          reportIntervalMs?: number;
+          maxUncompressedReportSize?: number;
+          maxAttempts?: number;
+          minimumRetryDelayMs?: number;
+        };
   };
   gateway?: {
     debug?: boolean;

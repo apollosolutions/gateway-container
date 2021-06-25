@@ -7,7 +7,7 @@ const config = await fetchConfig();
 const gateway = new ApolloGateway(config.gateway);
 
 const server = new ApolloServer({
-  ...config?.server,
+  ...config.server,
   gateway,
   context(ctx) {
     return ctx;
