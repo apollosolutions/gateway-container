@@ -14,6 +14,7 @@ export async function convertGatewayConfig(config) {
       return createDataSource({
         url,
         forwardHeaders: config?.gateway?.forwardHeaders,
+        apq: config?.gateway?.persistedQueries,
       });
     },
   };
@@ -89,12 +90,20 @@ const AUTO_FORWARDED_HEADERS = [
 /**
  * @param {{
  *  url: string | undefined;
- *  forwardHeaders: import("./types").ForwardHeadersConfig
+ *  forwardHeaders: import("./types").ForwardHeadersConfig;
+ *  apq: boolean | undefined;
  * }} params
  * @returns {import("@apollo/gateway").GraphQLDataSource}
  */
-function createDataSource({ url, forwardHeaders }) {
+function createDataSource({ url, forwardHeaders, apq }) {
   class DataSource extends RemoteGraphQLDataSource {
+    /**
+     * @param {{ url: string | undefined; apq: boolean | undefined }} params
+     */
+    constructor({ url, apq }) {
+      super({ url, apq });
+    }
+
     /**
      * @param {{ request: any; context: import("apollo-server-express").ExpressContext; }} params
      */
@@ -114,5 +123,5 @@ function createDataSource({ url, forwardHeaders }) {
     }
   }
 
-  return new DataSource({ url });
+  return new DataSource({ url, apq });
 }

@@ -24,3 +24,8 @@ wait_on_gateway () {
     fi
   done
 }
+
+clean_up_and_exit () {
+  docker compose down
+  exit $1
+}

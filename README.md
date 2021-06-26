@@ -7,6 +7,7 @@
   - [-] `supergraphSdl`
   - [-] `debug`
   - [-] Managed federation
+  - [-] Persisted queries to subgraphs
   - [ ] Request header propagation
     - [-] Simple
     - [ ] Per-subgraph
@@ -21,7 +22,7 @@
   - [-] Usage reporting
   - [-] Global Agent proxy configuration
   - [-] OpenTelemetry
-  - [ ] APQ
+  - [ ] APQ configuration
   - [ ] Validation
     - [ ] Operation depth limiting
   - [ ] Cache control
@@ -52,16 +53,30 @@
 
 ### Server
 
-- `modules` - not relevant with federation
-- `typeDefs` - not relevant with federation
-- `parseOptions` - not relevant with federation
-- `resolvers` - not relevant with federation
-- `schema` - not relevant with federation
+Not relevant when using Apollo Federation:
+
+- `modules`
+- `typeDefs`
+- `parseOptions`
+- `resolvers`
+- `schema`
+- `mocks`
+- `dataSources`
+- `schemaDirectives`
+- `subscriptions`
+- `rootValue`
+- `uploads`
+
+Other configuration options
+
+- `validationRules` - TODO
 - `context` - preconfigured
-- `mocks` - not relevant with federation
 - `plugins` - preconfigured
-- `persistedQueries` TODO
+- `persistedQueries.cache` - TODO
+- `cacheControl` - TODO
 - `onHealthCheck`
+- `formatError`
+- `formatResponse`
 - `experimental_approximateDocumentStoreMiB`
 - `stopGracePeriodMillis`
 - `stopOnTerminationSignals`

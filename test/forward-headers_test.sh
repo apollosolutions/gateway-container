@@ -27,15 +27,11 @@ EOF
 
 EXPECTED='{"data":{"a":"Bearer abcd1234","b":"supersecret","c":"auto-forwarded","d":"Bearer abcd1234","e":"supersecret","f":"auto-forwarded"}}'
 
-exit_code=0
 if [[ "$ACTUAL" = "$EXPECTED" ]]; then
   echo "Success!"
+  clean_up_and_exit 0
 else
   echo "Expected $EXPECTED"
   echo "Got      $ACTUAL"
-  exit_code=1
+  clean_up_and_exit 1
 fi
-
-docker compose down
-
-exit $exit_code

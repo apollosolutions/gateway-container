@@ -235,7 +235,8 @@
               }
             ]
           }
-        }
+        },
+        "persistedQueries": { "type": "boolean" }
       }
     },
     "openTelemetry": {

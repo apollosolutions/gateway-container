@@ -75,6 +75,7 @@ export interface ApolloGatewayContainerConfig {
       name: string;
       as?: string;
     }[];
+    persistedQueries?: boolean;
   };
   openTelemetry?: {
     serviceName: string;
