@@ -2,6 +2,7 @@ import {
   ApolloServerPluginUsageReporting,
   ApolloServerPluginUsageReportingDisabled,
 } from "apollo-server-core";
+import { ApolloServerPluginInlineTraceDisabled } from "apollo-server-core/dist/plugin/inlineTrace";
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfig} config
@@ -10,7 +11,10 @@ import {
 export function convertServerConfig(config) {
   return {
     ...(config.server ?? {}),
-    plugins: [getUsageReportingPlugin(config.server?.usageReporting)].filter(
+    plugins: [
+      getUsageReportingPlugin(config.server?.usageReporting),
+      getInlineTracingPlugin(config.server?.inlineTracing),
+    ].filter(
       /** @type {(x: any) => x is any} */
       (x) => !!x
     ),
@@ -27,6 +31,17 @@ function getUsageReportingPlugin(config) {
 
   if (typeof config === "object") {
     return ApolloServerPluginUsageReporting(config);
+  }
+
+  return null;
+}
+
+/**
+ * @param {import("./types").InlineTracingConfig} config
+ */
+function getInlineTracingPlugin(config) {
+  if (config === false) {
+    return ApolloServerPluginInlineTraceDisabled();
   }
 
   return null;

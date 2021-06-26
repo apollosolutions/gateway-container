@@ -19,13 +19,14 @@
   - [-] `debug`
   - [-] health/read/live check
   - [-] Usage reporting
+  - [-] Global Agent proxy configuration
+  - [-] OpenTelemetry
   - [ ] APQ
   - [ ] Validation
     - [ ] Operation depth limiting
   - [ ] Cache control
   - [ ] Error formatting
   - [ ] Landing page
-  - [-] Global Agent proxy configuration
 
 ## Environment Variables
 
@@ -91,6 +92,6 @@
   - `logger`
   - `reportErrorFunction`
 - Schema reporting plugin
-  - Not relevant with federation
+  - Not supported with federation
 - Inline trace plugin
-  - Not relevant with federation
+  - `rewriteError`

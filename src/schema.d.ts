@@ -62,6 +62,7 @@ export interface ApolloGatewayContainerConfig {
           maxAttempts?: number;
           minimumRetryDelayMs?: number;
         };
+    inlineTracing?: boolean;
   };
   gateway?: {
     debug?: boolean;

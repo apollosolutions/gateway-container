@@ -185,7 +185,8 @@
               }
             }
           ]
-        }
+        },
+        "inlineTracing": { "type": "boolean" }
       }
     },
     "gateway": {

@@ -20,3 +20,4 @@ export type ContainerServerConfig = NonNullable<
 
 export type ForwardHeadersConfig = ContainerGatewayConfig["forwardHeaders"];
 export type UsageReportingConfig = ContainerServiceConfig["usageReporting"];
+export type InlineTracingConfig = ContainerServiceConfig["inlineTracing"];
