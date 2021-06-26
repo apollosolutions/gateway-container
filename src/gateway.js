@@ -55,6 +55,37 @@ async function subgraphConfig(config) {
   return {};
 }
 
+// Borrowed from istio demo https://github.com/istio/istio/blob/62c094676c7dbdd9daeacb5795dddc049d49afee/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L46
+const AUTO_FORWARDED_HEADERS = [
+  "x-request-id",
+
+  // Lightstep tracing header.
+  "x-ot-span-context",
+
+  // Datadog tracing header.
+  "x-datadog-trace-id",
+  "x-datadog-parent-id",
+  "x-datadog-sampling-priority",
+
+  // W3C Trace Context.
+  "traceparent",
+  "tracestate",
+
+  // Cloud trace context.
+  "x-cloud-trace-context",
+
+  // Grpc binary trace context.
+  "grpc-trace-bin",
+
+  // b3 trace headers. Compatible with Zipkin, OpenCensusAgent, and
+  // Stackdriver Istio configurations.
+  "x-b3-traceid",
+  "x-b3-spanid",
+  "x-b3-parentspanid",
+  "x-b3-sampled",
+  "x-b3-flags",
+];
+
 /**
  * @param {{
  *  url: string | undefined;
@@ -68,6 +99,10 @@ function createDataSource({ url, forwardHeaders }) {
      * @param {{ request: any; context: import("apollo-server-express").ExpressContext; }} params
      */
     willSendRequest({ request, context }) {
+      for (const header of AUTO_FORWARDED_HEADERS) {
+        request.http.headers.set(header, context.req?.header(header));
+      }
+
       if (forwardHeaders) {
         for (const fwd of forwardHeaders) {
           request.http.headers.set(

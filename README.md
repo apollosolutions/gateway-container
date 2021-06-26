@@ -5,7 +5,6 @@
 - [ ] Gateway configuration
   - [-] `serviceList`
   - [-] `supergraphSdl`
-  - [ ] `introspectionHeaders`
   - [-] `debug`
   - [-] Managed federation
   - [ ] Request header propagation
@@ -26,7 +25,7 @@
   - [ ] Cache control
   - [ ] Error formatting
   - [ ] Landing page
-  - [ ] Global Agent proxy configuration
+  - [-] Global Agent proxy configuration
 
 ## Environment Variables
 
@@ -35,6 +34,7 @@
 - [-] APOLLO_KEY
 - [-] APOLLO_GRAPH_REF
 - [-] APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT [default=https://uplink.api.apollographql.com/]
+- [-] NODE_EXTRA_CA_CERTS
 
 ### Container-specific
 
@@ -43,6 +43,9 @@
 - [-] HOST [default=localhost]
 - [-] CONFIG_FILE [default=/etc/apollo/gateway.yaml]
 - [-] SUPERGRAPH_SDL_PATH
+- [-] GLOBAL_AGENT_HTTP_PROXY
+- [-] GLOBAL_AGENT_HTTPS_PROXY
+- [-] GLOBAL_AGENT_NO_PROXY
 
 ## Unsupported Configuration
 
@@ -69,20 +72,25 @@
 - `fetcher`
 - `serviceHealthCheck` - not a best practice
 - `localServiceList` - for testing
-- `introspectionHeaders` TODO
+- `introspectionHeaders` - TODO are these necessary? serviceList will be deprecated anyway
 - `experimental_updateServiceDefinitions`
 - `experimental_updateSupergraphSdl`
 - `__exposeQueryPlanExperimental`
 
-### Usage Reporting Plugin
+### Plugins
 
-- `sendVariableValues: { transform: () => {} }`
-- `rewriteError`
-- `includeRequest`
-- `generateClientInfo`
-- `overrideReportedSchema`
-- `sendUnexecutableOperationDocuments`
-- `requestAgent`
-- `fetcher`
-- `logger`
-- `reportErrorFunction`
+- Usage Reporting Plugin
+  - `sendVariableValues: { transform: () => {} }`
+  - `rewriteError`
+  - `includeRequest`
+  - `generateClientInfo`
+  - `overrideReportedSchema`
+  - `sendUnexecutableOperationDocuments`
+  - `requestAgent`
+  - `fetcher`
+  - `logger`
+  - `reportErrorFunction`
+- Schema reporting plugin
+  - Not relevant with federation
+- Inline trace plugin
+  - Not relevant with federation

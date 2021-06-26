@@ -1,7 +1,10 @@
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloGateway } from "@apollo/gateway";
+import { bootstrap as bootstrapGlobalAgent } from "global-agent";
 import { fetchConfig } from "./config.js";
+
+bootstrapGlobalAgent();
 
 const config = await fetchConfig();
 
