@@ -5,7 +5,7 @@ import {
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfig} config
- * @returns {import("apollo-server-express").ApolloServerExpressConfig & { cors?: import("apollo-server").CorsOptions | boolean }}
+ * @returns {import("./types").ContainerServerConfig}
  */
 export function convertServerConfig(config) {
   return {

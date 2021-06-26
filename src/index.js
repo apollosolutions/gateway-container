@@ -1,4 +1,5 @@
-import { ApolloServer } from "apollo-server";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
 import { ApolloGateway } from "@apollo/gateway";
 import { fetchConfig } from "./config.js";
 
@@ -8,15 +9,27 @@ const gateway = new ApolloGateway(config.gateway);
 
 const server = new ApolloServer({
   ...config.server,
+  // @ts-ignore
   gateway,
   context(ctx) {
     return ctx;
   },
 });
 
-const { url } = await server.listen({
-  port: config?.server?.port ?? process.env.PORT ?? 4000,
-  url: config?.server?.url ?? process.env.URL,
-});
+const app = express();
 
-console.log(`Gateway running at ${url}`);
+app.get("/readyz", (_, res) => res.send("ok"));
+app.get("/livez", (_, res) => res.send("ok"));
+app.get("/healthz", (_, res) => res.send("ok"));
+
+await server.start();
+server.applyMiddleware({ app });
+
+const port = parseInt(config.server.port ?? process.env.PORT ?? "4000", 10);
+const host = config.server.host ?? process.env.HOST;
+
+await new Promise((resolve) =>
+  app.listen({ port, host }, () => resolve(undefined))
+);
+
+console.log(`Gateway running at ${host ?? "localhost"}:${port}`);

@@ -11,7 +11,7 @@
 export interface ApolloGatewayContainerConfig {
   server?: {
     port?: string;
-    url?: string;
+    host?: string;
     debug?: boolean;
     cors?:
       | boolean

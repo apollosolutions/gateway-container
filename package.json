@@ -11,11 +11,15 @@
     "@apollo/gateway": "^0.30.0",
     "ajv": "^8.6.0",
     "apollo-server": "^3.0.0-preview.2",
+    "apollo-server-core": "^3.0.0-preview.2",
+    "apollo-server-express": "^3.0.0-preview.2",
+    "express": "^4.17.1",
     "graphql": "^15.5.1",
     "js-yaml": "^4.1.0",
     "pm2": "^5.1.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.12",
     "@types/js-yaml": "^4.0.1",
     "@types/node": "^15.12.4",
     "json-schema-to-typescript": "^10.1.4",
@@ -23,6 +27,6 @@
   },
   "scripts": {
     "ts": "json2ts src/configschema.json > src/schema.d.ts",
-    "compose": "rover supergraph compose --config test/supergraph.yaml > test/config/supergraph.graphql"
+    "compose": "rover supergraph compose --config test/config/supergraph.yaml > test/config/supergraph.graphql"
   }
 }

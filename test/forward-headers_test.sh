@@ -6,7 +6,7 @@ docker compose --file $(dirname $0)/docker-compose.yaml --env-file $(dirname $0)
 
 wait_on_gateway
 
-ACTUAL="$(set -x; curl -s http://localhost:4000/graphql \
+ACTUAL="$(curl -s http://localhost:4000/graphql \
   -H 'content-type: application/json' \
   -H 'Authorization: Bearer abcd1234' \
   -H 'x-api-key: supersecret' \
@@ -33,6 +33,6 @@ else
   exit_code=1
 fi
 
-docker compose down --file $(dirname $0)/docker-compose.yaml
+docker compose down
 
 exit $exit_code

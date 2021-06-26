@@ -18,8 +18,7 @@
   - [-] CORS
   - [-] `introspection`
   - [-] `debug`
-  - [ ] health check
-  - [ ] liveness check
+  - [-] health/read/live check
   - [-] Usage reporting
   - [ ] APQ
   - [ ] Validation
@@ -41,7 +40,7 @@
 
 - [-] PROCESS_COUNT [default=number of cores]
 - [-] PORT [default=4000]
-- [-] URL [default=localhost]
+- [-] HOST [default=localhost]
 - [-] CONFIG_FILE [default=/etc/apollo/gateway.yaml]
 - [-] SUPERGRAPH_SDL_PATH
 

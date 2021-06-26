@@ -20,6 +20,6 @@ else
   exit_code=1
 fi
 
-docker compose down --file $(dirname $0)/docker-compose.yaml
+docker compose down
 
 exit $exit_code
