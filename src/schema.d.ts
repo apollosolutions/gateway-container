@@ -76,4 +76,9 @@ export interface ApolloGatewayContainerConfig {
       as?: string;
     }[];
   };
+  openTelemetry?: {
+    serviceName: string;
+    maxQueueSize?: number;
+    scheduledDelayMillis?: number;
+  };
 }

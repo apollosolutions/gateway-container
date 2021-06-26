@@ -20,18 +20,20 @@ export async function fetchConfig() {
     return {
       server: convertServerConfig({}),
       gateway: await convertGatewayConfig({}),
+      openTelemetry: undefined,
     };
   }
 
   const contents = await readFile(file, "utf-8");
   const yaml = load(contents);
 
-  const validate = await getValidator(yaml);
+  const validate = await getValidator();
 
   if (validate(yaml)) {
     return {
       server: convertServerConfig(yaml),
       gateway: await convertGatewayConfig(yaml),
+      openTelemetry: yaml.openTelemetry,
     };
   }
 
@@ -42,10 +44,7 @@ export async function fetchConfig() {
   );
 }
 
-/**
- * @param {any} config
- */
-async function getValidator(config) {
+async function getValidator() {
   const ajv = new Ajv({ allErrors: true });
 
   const schemaJSON = await readFile(

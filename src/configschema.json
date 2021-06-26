@@ -237,6 +237,16 @@
           }
         }
       }
+    },
+    "openTelemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serviceName"],
+      "properties": {
+        "serviceName": { "type": "string" },
+        "maxQueueSize": { "type": "number", "default": 1000 },
+        "scheduledDelayMillis": { "type": "number", "default": 1000 }
+      }
     }
   }
 }

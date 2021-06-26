@@ -1,12 +1,18 @@
+import { fetchConfig } from "./config.js";
+import { setupOpentelemetry } from "./open-telemetry.js";
+
+const config = await fetchConfig();
+
+if (config.openTelemetry) {
+  setupOpentelemetry(config.openTelemetry);
+}
+
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloGateway } from "@apollo/gateway";
 import { bootstrap as bootstrapGlobalAgent } from "global-agent";
-import { fetchConfig } from "./config.js";
 
 bootstrapGlobalAgent();
-
-const config = await fetchConfig();
 
 const gateway = new ApolloGateway(config.gateway);
 

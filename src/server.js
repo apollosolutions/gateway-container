@@ -1,8 +1,8 @@
 import {
   ApolloServerPluginUsageReporting,
   ApolloServerPluginUsageReportingDisabled,
+  ApolloServerPluginInlineTraceDisabled,
 } from "apollo-server-core";
-import { ApolloServerPluginInlineTraceDisabled } from "apollo-server-core/dist/plugin/inlineTrace";
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfig} config

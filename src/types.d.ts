@@ -6,12 +6,13 @@ import { CorsOptions } from "apollo-server-express";
 export type ContainerGatewayConfig = Config & {
   port?: string;
   host?: string;
-  cors?: CorsOptions | boolean; // TODO should be CorsOptions
+  cors?: CorsOptions | boolean;
 };
 
 export type ApolloGatewayContainerConfigReified = {
   server: ContainerGatewayConfig;
   gateway: GatewayConfig;
+  openTelemetry: ApolloGatewayContainerConfig["openTelemetry"];
 };
 
 export type ContainerServerConfig = NonNullable<
