@@ -16,6 +16,7 @@ services:
     depends_on:
       - astronauts
       - missions
+      - redis
   astronauts:
     build: ./services/astronauts
     ports:
@@ -28,3 +29,7 @@ services:
       - "4002:4002"
     environment:
       - PORT=4002
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"

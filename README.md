@@ -23,6 +23,7 @@
   - [-] Global Agent proxy configuration
   - [-] OpenTelemetry
   - [ ] APQ configuration
+    - [-] Simple redis config
   - [ ] Validation
     - [ ] Operation depth limiting
   - [ ] Cache control
@@ -62,7 +63,7 @@ Not relevant when using Apollo Federation:
 - `schema`
 - `mocks`
 - `dataSources`
-- `schemaDirectives`
+- `schemaDirectives` - removed in AS 3
 - `subscriptions`
 - `rootValue`
 - `uploads`
@@ -73,7 +74,7 @@ Other configuration options
 - `context` - preconfigured
 - `plugins` - preconfigured
 - `persistedQueries.cache` - TODO
-- `cacheControl` - TODO
+- `cacheControl` - removed in AS 3
 - `onHealthCheck`
 - `formatError`
 - `formatResponse`
@@ -110,3 +111,13 @@ Other configuration options
   - Not supported with federation
 - Inline trace plugin
   - `rewriteError`
+
+### Additional Libraries
+
+#### Redis Config
+
+https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
+
+- `retryStrategy`
+- `reconnectOnError`
+- `readOnly`

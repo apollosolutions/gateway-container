@@ -63,6 +63,15 @@ export interface ApolloGatewayContainerConfig {
           minimumRetryDelayMs?: number;
         };
     inlineTracing?: boolean;
+    /**
+     * Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
+     */
+    persistedQueries?:
+      | boolean
+      | {
+          ttl?: number;
+          redis?: RedisClientConfig;
+        };
   };
   gateway?: {
     debug?: boolean;
@@ -82,4 +91,37 @@ export interface ApolloGatewayContainerConfig {
     maxQueueSize?: number;
     scheduledDelayMillis?: number;
   };
+}
+export interface RedisClientConfig {
+  port?: number;
+  host?: string;
+  family?: number;
+  path?: string;
+  keepAlive?: number;
+  noDelay?: boolean;
+  connectionName?: string;
+  db?: number;
+  password?: {
+    /**
+     * Name of environment variable
+     */
+    env?: string;
+  };
+  username?: string;
+  dropBufferSupport?: boolean;
+  enableReadyCheck?: boolean;
+  enableOfflineQueue?: boolean;
+  connectTimeout?: number;
+  disconnectTimeout?: number;
+  commandTimeout?: number;
+  autoResubscribe?: boolean;
+  autoResendUnfulfilledCommands?: boolean;
+  lazyConnect?: boolean;
+  tls?: {};
+  keyPrefix?: string;
+  maxRetriesPerRequest?: number;
+  stringNumbers?: boolean;
+  enableAutoPipelining?: boolean;
+  autoPipeliningIgnoredCommands?: string[];
+  maxScriptsCachingTime?: number;
 }

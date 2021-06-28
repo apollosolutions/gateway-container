@@ -10,8 +10,8 @@ import { NodeTracerProvider } from "@opentelemetry/node";
 /**
  * @param {{
  *  serviceName: string;
- *  maxQueueSize: number;
- *  scheduledDelayMillis: number;
+ *  maxQueueSize?: number | undefined;
+ *  scheduledDelayMillis?: number | undefined;
  * }} params
  */
 export function setupOpentelemetry({

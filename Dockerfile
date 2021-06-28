@@ -7,4 +7,5 @@ RUN yarn install --frozen-lockfile --production
 
 COPY src src/
 
+USER node
 CMD src/docker_entrypoint.sh

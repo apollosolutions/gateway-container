@@ -186,7 +186,23 @@
             }
           ]
         },
-        "inlineTracing": { "type": "boolean" }
+        "inlineTracing": { "type": "boolean" },
+        "persistedQueries": {
+          "description": "Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis",
+          "anyOf": [
+            { "type": "boolean" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "ttl": { "type": "number" },
+                "redis": {
+                  "$ref": "#/definitions/redisClientConfig"
+                }
+              }
+            }
+          ]
+        }
       }
     },
     "gateway": {
@@ -247,6 +263,56 @@
         "serviceName": { "type": "string" },
         "maxQueueSize": { "type": "number", "default": 1000 },
         "scheduledDelayMillis": { "type": "number", "default": 1000 }
+      }
+    }
+  },
+  "definitions": {
+    "redisClientConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "port": { "type": "number" },
+        "host": { "type": "string" },
+        "family": { "type": "number" },
+        "path": { "type": "string" },
+        "keepAlive": { "type": "number" },
+        "noDelay": { "type": "boolean", "default": true },
+        "connectionName": { "type": "string" },
+        "db": { "type": "number" },
+        "password": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "env": {
+              "description": "Name of environment variable",
+              "type": "string"
+            }
+          }
+        },
+        "username": { "type": "string" },
+        "dropBufferSupport": { "type": "boolean" },
+        "enableReadyCheck": { "type": "boolean" },
+        "enableOfflineQueue": { "type": "boolean" },
+        "connectTimeout": { "type": "number" },
+        "disconnectTimeout": { "type": "number" },
+        "commandTimeout": { "type": "number" },
+        "autoResubscribe": { "type": "boolean" },
+        "autoResendUnfulfilledCommands": { "type": "boolean" },
+        "lazyConnect": { "type": "boolean" },
+        "tls": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "keyPrefix": { "type": "string" },
+        "maxRetriesPerRequest": { "type": "number" },
+        "stringNumbers": { "type": "boolean" },
+        "enableAutoPipelining": { "type": "boolean" },
+        "autoPipeliningIgnoredCommands": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "maxScriptsCachingTime": { "type": "number" }
       }
     }
   }
