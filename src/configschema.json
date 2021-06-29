@@ -262,7 +262,10 @@
       "properties": {
         "serviceName": { "type": "string" },
         "maxQueueSize": { "type": "number", "default": 1000 },
-        "scheduledDelayMillis": { "type": "number", "default": 1000 }
+        "scheduledDelayMillis": { "type": "number", "default": 1000 },
+        "zipkin": {
+          "$ref": "#/definitions/zipkinExporterConfig"
+        }
       }
     }
   },
@@ -313,6 +316,23 @@
           "items": { "type": "string" }
         },
         "maxScriptsCachingTime": { "type": "number" }
+      }
+    },
+    "zipkinExporterConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "serviceName": { "type": "string" },
+        "url": {
+          "type": "string",
+          "default": "http://localhost:9411/api/v2/spans"
+        },
+        "statusCodeTagName": { "type": "string" },
+        "statusDescriptionTagName": { "type": "string" }
       }
     }
   }

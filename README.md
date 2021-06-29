@@ -23,7 +23,9 @@
   - [x] health/read/live check
   - [x] Usage reporting
   - [x] Global Agent proxy configuration
-  - [x] OpenTelemetry
+  - [ ] OpenTelemetry
+    - [x] Zipkin
+    - [ ] Prometheus
   - [ ] APQ configuration
     - [x] Simple redis config
     - [ ] Cluster redis
@@ -127,3 +129,7 @@ https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
 - `retryStrategy`
 - `reconnectOnError`
 - `readOnly`
+
+### Zipkin Exporter Config
+
+- `getExportRequestHeaders`

@@ -90,6 +90,7 @@ export interface ApolloGatewayContainerConfig {
     serviceName: string;
     maxQueueSize?: number;
     scheduledDelayMillis?: number;
+    zipkin?: ZipkinExporterConfig;
   };
 }
 export interface RedisClientConfig {
@@ -124,4 +125,13 @@ export interface RedisClientConfig {
   enableAutoPipelining?: boolean;
   autoPipeliningIgnoredCommands?: string[];
   maxScriptsCachingTime?: number;
+}
+export interface ZipkinExporterConfig {
+  headers?: {
+    [k: string]: string;
+  };
+  serviceName?: string;
+  url?: string;
+  statusCodeTagName?: string;
+  statusDescriptionTagName?: string;
 }
