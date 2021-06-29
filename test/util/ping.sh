@@ -1,5 +1,7 @@
 ping_gateway_once () {
-  actual=$(curl -s http://localhost:4000/graphql \
+  port=${1:-"4000"}
+
+  actual=$(curl -s http://localhost:${port}/graphql \
     -H 'content-type: application/json' \
     --data '{"query":"{__typename}"}')
 
@@ -11,9 +13,11 @@ ping_gateway_once () {
 }
 
 wait_on_gateway () {
+  port=${1:-"4000"}
+
   times=1
 
-  while ping_gateway_once == 0; do
+  while ping_gateway_once $port == 0; do
     sleep 1
 
     times=$((times+1))

@@ -41,5 +41,4 @@ await new Promise((resolve) =>
   app.listen({ port, host }, () => resolve(undefined))
 );
 
-process.send?.("ready"); // --wait-ready PM2 options
 console.log(`Gateway running at ${host ?? "localhost"}:${port}`);

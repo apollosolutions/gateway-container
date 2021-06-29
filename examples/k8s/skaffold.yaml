@@ -1,0 +1,24 @@
+apiVersion: skaffold/v2beta17
+kind: Config
+metadata:
+  name: k8s-example
+build:
+  artifacts:
+    - image: astronauts
+      context: ../../test/services/astronauts
+      docker:
+        dockerfile: Dockerfile
+    - image: gateway
+      context: ../..
+      docker:
+        dockerfile: Dockerfile
+    - image: missions
+      context: ../../test/services/missions
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - astronauts.yaml
+    - gateway.yaml
+    - missions.yaml

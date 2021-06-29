@@ -24,10 +24,14 @@
   - [-] OpenTelemetry
   - [ ] APQ configuration
     - [-] Simple redis config
+    - [ ] Cluster redis
+    - [ ] Memcached
+    - [ ] Process-shared cache (no additional infra)
   - [ ] Validation
     - [ ] Operation depth limiting
   - [ ] Cache control
   - [ ] Error formatting
+    - [ ] Remove suggested fields
   - [ ] Landing page
 
 ## Environment Variables

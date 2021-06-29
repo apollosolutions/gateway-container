@@ -40,5 +40,5 @@ const server = new ApolloServer({
     return ctx;
   },
 });
-const { url } = await server.listen(process.env.PORT ?? 4001);
-console.log(`Astronauts running on ${url}`);
+const { url } = await server.listen(process.env.PORT ?? 4002);
+console.log(`Missions running on ${url}`);

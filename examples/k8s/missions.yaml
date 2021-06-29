@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: missions
+  name: missions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: missions
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: missions
+    spec:
+      containers:
+      - image: missions
+        name: missions
+        resources: {}
+        env:
+          - name: NODE_ENV
+            value: "production"
+        ports:
+        - containerPort: 4002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: missions
+spec:
+  selector:
+    app: missions
+  ports:
+    - protocol: TCP
+      port: 4002
+      targetPort: 4002

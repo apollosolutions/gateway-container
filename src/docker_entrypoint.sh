@@ -4,4 +4,4 @@
 # TODO: remove when the uplink is the default
 export APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT=${APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT:-https://uplink.api.apollographql.com/}
 
-yarn pm2 start src/index.js -i ${PROCESS_COUNT:-max} --no-daemon --no-autorestart --wait-ready
+yarn pm2-runtime start src/index.js -i ${PROCESS_COUNT:-max} --no-autorestart
