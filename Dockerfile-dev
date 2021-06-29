@@ -1,0 +1,11 @@
+FROM node:14-alpine
+
+WORKDIR /web
+
+COPY package.json yarn.lock ./
+RUN yarn install
+
+COPY src src/
+
+USER node
+CMD src/docker_entrypoint.sh

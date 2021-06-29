@@ -14,9 +14,24 @@ import { reifyConfig as reifyRedisConfig } from "./redis.js";
 export function convertServerConfig(config) {
   return {
     ...(config.server ?? {}),
+
     persistedQueries: getPersistedQueriesConfig(
       config.server?.persistedQueries
     ),
+
+    formatError(error) {
+      // remove stacktrace
+      if (error.extensions) {
+        delete error.extensions.exception;
+      }
+
+      // remove "helpful" suggestions
+      return {
+        ...error,
+        message: error.message.replace(/Did you mean (.*)\?/g, "").trim(),
+      };
+    },
+
     plugins: [
       getUsageReportingPlugin(config.server?.usageReporting),
       getInlineTracingPlugin(config.server?.inlineTracing),

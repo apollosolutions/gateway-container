@@ -1,0 +1,45 @@
+services:
+  gateway:
+    build:
+      context: ../
+      dockerfile: Dockerfile-dev
+    volumes:
+      - ./config:/etc/apollo
+      - ../src:/web/src
+      - ../package.json:/web/package.json
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - APOLLO_GRAPH_REF
+      - APOLLO_KEY
+      - APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT
+      - CONFIG_FILE
+      - PROCESS_COUNT
+      - SUPERGRAPH_SDL_PATH
+    depends_on:
+      - astronauts
+      - missions
+      - redis
+    command: yarn dev
+  astronauts:
+    build: ./services/astronauts
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+  missions:
+    build: ./services/missions
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+  zipkin:
+    image: openzipkin/zipkin-slim
+    ports:
+      - "9411:9411"
+    command: --logging.level.zipkin2=DEBUG

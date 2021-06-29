@@ -2,6 +2,12 @@
 
 ⚠️ WORK IN PROGRESS ⚠️ Not yet ready for production usage.
 
+## Usage
+
+```sh
+APOLLO_KEY=<apollo api key> APOLLO_GRAPH_REF=my-graph@production docker run -d -p 4000:4000 ghcr.io/apollosolutions/gateway
+```
+
 ## Configurable Functionality
 
 - [ ] Gateway configuration
@@ -33,9 +39,10 @@
     - [ ] Process-shared cache (no additional infra)
   - [ ] Validation
     - [ ] Operation depth limiting
+    - [ ] Required client identifiers
   - [ ] Cache control
   - [ ] Error formatting
-    - [ ] Remove suggested fields
+    - [x] Remove suggested fields
   - [ ] Landing page
 
 ## Environment Variables
