@@ -5,27 +5,27 @@
 ## Configurable Functionality
 
 - [ ] Gateway configuration
-  - [-] `serviceList`
-  - [-] `supergraphSdl`
-  - [-] `debug`
-  - [-] Managed federation
-  - [-] Persisted queries to subgraphs
+  - [x] `serviceList`
+  - [x] `supergraphSdl`
+  - [x] `debug`
+  - [x] Managed federation
+  - [x] Persisted queries to subgraphs
   - [ ] Request header propagation
-    - [-] Simple
+    - [x] Simple
     - [ ] Per-subgraph
     - [ ] Aggregation?
   - [ ] Uplink fallback
 - [ ] Server configuration
-  - [-] `listen({ url, port })`
-  - [-] CORS
-  - [-] `introspection`
-  - [-] `debug`
-  - [-] health/read/live check
-  - [-] Usage reporting
-  - [-] Global Agent proxy configuration
-  - [-] OpenTelemetry
+  - [x] `listen({ url, port })`
+  - [x] CORS
+  - [x] `introspection`
+  - [x] `debug`
+  - [x] health/read/live check
+  - [x] Usage reporting
+  - [x] Global Agent proxy configuration
+  - [x] OpenTelemetry
   - [ ] APQ configuration
-    - [-] Simple redis config
+    - [x] Simple redis config
     - [ ] Cluster redis
     - [ ] Memcached
     - [ ] Process-shared cache (no additional infra)
@@ -40,21 +40,21 @@
 
 ### Built-in
 
-- [-] APOLLO_KEY
-- [-] APOLLO_GRAPH_REF
-- [-] APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT [default=https://uplink.api.apollographql.com/]
-- [-] NODE_EXTRA_CA_CERTS
+- [x] APOLLO_KEY
+- [x] APOLLO_GRAPH_REF
+- [x] APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT [default=https://uplink.api.apollographql.com/]
+- [x] NODE_EXTRA_CA_CERTS
 
 ### Container-specific
 
-- [-] PROCESS_COUNT [default=number of cores]
-- [-] PORT [default=4000]
-- [-] HOST [default=localhost]
-- [-] CONFIG_FILE [default=/etc/apollo/gateway.yaml]
-- [-] SUPERGRAPH_SDL_PATH
-- [-] GLOBAL_AGENT_HTTP_PROXY
-- [-] GLOBAL_AGENT_HTTPS_PROXY
-- [-] GLOBAL_AGENT_NO_PROXY
+- [x] PROCESS_COUNT [default=number of cores]
+- [x] PORT [default=4000]
+- [x] HOST [default=localhost]
+- [x] CONFIG_FILE [default=/etc/apollo/gateway.yaml]
+- [x] SUPERGRAPH_SDL_PATH
+- [x] GLOBAL_AGENT_HTTP_PROXY
+- [x] GLOBAL_AGENT_HTTPS_PROXY
+- [x] GLOBAL_AGENT_NO_PROXY
 
 ## Unsupported Configuration
 
