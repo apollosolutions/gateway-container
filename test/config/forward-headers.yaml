@@ -1,2 +1,5 @@
 gateway:
-  persistedQueries: true
+  forwardHeaders:
+    - name: Authorization
+    - name: x-api-key
+      as: forwarded-api-key
