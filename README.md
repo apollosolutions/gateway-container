@@ -1,5 +1,7 @@
 # Apollo Gateway Docker Container
 
+⚠️ WORK IN PROGRESS ⚠️ Not yet ready for production usage.
+
 ## Configurable Functionality
 
 - [ ] Gateway configuration
