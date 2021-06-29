@@ -4,8 +4,33 @@
 
 ## Usage
 
+### Managed Federation
+
 ```sh
-APOLLO_KEY=<apollo api key> APOLLO_GRAPH_REF=my-graph@production docker run -d -p 4000:4000 ghcr.io/apollosolutions/gateway
+docker run -d \
+  -e APOLLO_KEY=<apollo api key> \
+  -e APOLLO_GRAPH_REF=my-graph@production \
+  -p 4000:4000 \
+  ghcr.io/apollosolutions/gateway
+```
+
+### Supergraph SDL
+
+```sh
+docker run -d \
+  -e SUPERGRAPH_SDL_PATH=/etc/supergraph.graphql \
+  -v `pwd`/supergraph.graphql:/etc/supergraph.graphql \
+  -p 4000:4000 \
+  ghcr.io/apollosolutions/gateway
+```
+
+### Configuration File
+
+```sh
+docker run -d \
+  -v `pwd`/config.yaml:/etc/apollo/gateway.yaml \
+  -p 4000:4000 \
+  ghcr.io/apollosolutions/gateway
 ```
 
 ## Configurable Functionality
