@@ -18,17 +18,34 @@ spec:
       containers:
       - image: gateway
         name: gateway
-        resources: {}
-        # env:
-          # - name: NODE_ENV
-          #   value: "production"
+        resources:
+          requests:
+            cpu: "4"
+            memory: 7168Mi
+          limits:
+            cpu: "4"
+            memory: 7168Mi
+        env:
+          - name: NODE_ENV
+            value: "production"
           # - name: PROCESS_COUNT
           #   value: "1"
+          # - name: CONFIG_FILE
+          #   value: /etc/apollo/gateway.yaml
         ports:
-        - containerPort: 4000
+        - name: http
+          containerPort: 4000
         volumeMounts:
           - name: gateway-config
             mountPath: /etc/apollo
+        livenessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: http
       volumes:
         - name: gateway-config
           configMap:

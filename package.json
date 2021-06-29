@@ -18,11 +18,8 @@
     "@opentelemetry/resources": "^0.22.0",
     "@opentelemetry/tracing": "^0.22.0",
     "ajv": "^8.6.0",
-    "apollo-server": "^3.0.0-preview.2",
-    "apollo-server-cache-redis": "^1.5.0",
-    "apollo-server-core": "^3.0.0-preview.2",
-    "apollo-server-express": "^3.0.0-preview.2",
-    "express": "^4.17.1",
+    "apollo-server": "^3.0.0-preview.3",
+    "apollo-server-cache-redis": "^3.0.0-preview.3",
     "global-agent": "^2.2.0",
     "graphql": "^15.5.1",
     "ioredis": "^4.27.6",
@@ -30,7 +27,6 @@
     "pm2": "^5.1.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.12",
     "@types/global-agent": "^2.1.0",
     "@types/ioredis": "^4.26.4",
     "@types/js-yaml": "^4.0.1",
@@ -41,5 +37,13 @@
   "scripts": {
     "ts": "json2ts src/configschema.json > src/schema.d.ts",
     "compose": "rover supergraph compose --config test/config/supergraph.yaml > test/config/supergraph.graphql"
+  },
+  "resolutions": {
+    "**/apollo-server-core": "^3.0.0-preview.3",
+    "**/apollo-server-caching": "^3.0.0-preview.1",
+    "**/apollo-server-env": "^3.0.0-preview.3",
+    "**/apollo-server-types": "^3.0.0-preview.3",
+    "**/apollo-server-errors": "^3.0.0-preview.2",
+    "**/apollo-reporting-protobuf": "^3.0.0-preview.1"
   }
 }
