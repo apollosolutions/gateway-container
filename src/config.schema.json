@@ -92,6 +92,7 @@
           "type": "boolean"
         },
         "usageReporting": {
+          "title": "Usage Reporting",
           "anyOf": [
             { "type": "boolean", "default": true },
             {
@@ -105,7 +106,10 @@
                       "additionalProperties": false,
                       "required": ["none"],
                       "properties": {
-                        "none": { "type": "boolean" }
+                        "none": {
+                          "type": "boolean",
+                          "enum": [true]
+                        }
                       }
                     },
                     {
@@ -113,7 +117,10 @@
                       "additionalProperties": false,
                       "required": ["all"],
                       "properties": {
-                        "all": { "type": "boolean" }
+                        "all": {
+                          "type": "boolean",
+                          "enum": [true]
+                        }
                       }
                     },
                     {
@@ -146,13 +153,23 @@
                       "type": "object",
                       "additionalProperties": false,
                       "required": ["none"],
-                      "properties": { "none": { "type": "boolean" } }
+                      "properties": {
+                        "none": {
+                          "type": "boolean",
+                          "enum": [true]
+                        }
+                      }
                     },
                     {
                       "type": "object",
                       "additionalProperties": false,
                       "required": ["all"],
-                      "properties": { "all": { "type": "boolean" } }
+                      "properties": {
+                        "all": {
+                          "type": "boolean",
+                          "enum": [true]
+                        }
+                      }
                     },
                     {
                       "type": "object",
@@ -190,7 +207,8 @@
         },
         "inlineTracing": { "type": "boolean" },
         "persistedQueries": {
-          "description": "Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis",
+          "title": "Persisted Queries",
+          "description": "Either false, or { ttl: number; redis: https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis }",
           "anyOf": [
             { "type": "boolean" },
             {
@@ -220,6 +238,7 @@
           "type": "boolean"
         },
         "serviceList": {
+          "title": "Service List",
           "type": "array",
           "items": {
             "type": "object",
@@ -239,6 +258,7 @@
           "type": "string"
         },
         "forwardHeaders": {
+          "title": "Forward Headers",
           "type": "array",
           "items": {
             "anyOf": [

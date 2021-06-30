@@ -48,7 +48,7 @@ export function convertServerConfig(config) {
 }
 
 /**
- * @param {import("./types").PersistedQueriesConfig} config
+ * @param {import("./schema").PersistedQueries | undefined} config
  */
 function getPersistedQueriesConfig(config) {
   if (config === false) {
@@ -70,7 +70,7 @@ function getPersistedQueriesConfig(config) {
 }
 
 /**
- * @param {import("./types").UsageReportingConfig} config
+ * @param {import("./schema").UsageReporting | undefined} config
  */
 function getUsageReportingPlugin(config) {
   if (config === false) {
@@ -85,7 +85,7 @@ function getUsageReportingPlugin(config) {
 }
 
 /**
- * @param {import("./types").InlineTracingConfig} config
+ * @param {boolean | undefined} config
  */
 function getInlineTracingPlugin(config) {
   if (config === false) {

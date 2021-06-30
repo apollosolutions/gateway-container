@@ -90,7 +90,7 @@ const AUTO_FORWARDED_HEADERS = [
 /**
  * @param {{
  *  url: string | undefined;
- *  forwardHeaders: import("./types").ForwardHeadersConfig;
+ *  forwardHeaders?: import("./schema").ForwardHeaders;
  *  apq: boolean | undefined;
  * }} params
  * @returns {import("@apollo/gateway").GraphQLDataSource}
@@ -113,11 +113,8 @@ function createDataSource({ url, forwardHeaders, apq }) {
       }
 
       if (forwardHeaders) {
-        for (const fwd of forwardHeaders) {
-          request.http.headers.set(
-            fwd.as ?? fwd.name,
-            context.req?.header(fwd.name)
-          );
+        for (const { as, name } of forwardHeaders) {
+          request.http.headers.set(as ?? name, context.req?.header(name));
         }
       }
     }

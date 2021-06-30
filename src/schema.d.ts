@@ -17,6 +17,59 @@ export type CORS =
       preflightContinue?: boolean;
       optionsSuccessStatus?: number;
     };
+export type UsageReporting =
+  | boolean
+  | {
+      sendVariableValues?:
+        | {
+            none: true;
+          }
+        | {
+            all: true;
+          }
+        | {
+            onlyNames: string[];
+          }
+        | {
+            exceptNames: string[];
+          };
+      sendHeaders?:
+        | {
+            none: true;
+          }
+        | {
+            all: true;
+          }
+        | {
+            onlyNames: string[];
+          }
+        | {
+            exceptNames: string[];
+          };
+      sendUnexecutableOperationDocuments?: boolean;
+      sendReportsImmediately?: boolean;
+      reportIntervalMs?: number;
+      maxUncompressedReportSize?: number;
+      maxAttempts?: number;
+      minimumRetryDelayMs?: number;
+    };
+/**
+ * Either false, or { ttl: number; redis: https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis }
+ */
+export type PersistedQueries =
+  | boolean
+  | {
+      ttl?: number;
+      redis?: RedisClient;
+    };
+export type ServiceList = {
+  name: string;
+  url: string;
+}[];
+export type ForwardHeaders = {
+  name: string;
+  as?: string;
+}[];
 
 /**
  * Configuration for Apollo Server and Apollo Gateway running inside a Docker container
@@ -32,52 +85,9 @@ export interface Server {
   debug?: boolean;
   cors?: CORS;
   introspection?: boolean;
-  usageReporting?:
-    | boolean
-    | {
-        sendVariableValues?:
-          | {
-              none: boolean;
-            }
-          | {
-              all: boolean;
-            }
-          | {
-              onlyNames: string[];
-            }
-          | {
-              exceptNames: string[];
-            };
-        sendHeaders?:
-          | {
-              none: boolean;
-            }
-          | {
-              all: boolean;
-            }
-          | {
-              onlyNames: string[];
-            }
-          | {
-              exceptNames: string[];
-            };
-        sendUnexecutableOperationDocuments?: boolean;
-        sendReportsImmediately?: boolean;
-        reportIntervalMs?: number;
-        maxUncompressedReportSize?: number;
-        maxAttempts?: number;
-        minimumRetryDelayMs?: number;
-      };
+  usageReporting?: UsageReporting;
   inlineTracing?: boolean;
-  /**
-   * Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
-   */
-  persistedQueries?:
-    | boolean
-    | {
-        ttl?: number;
-        redis?: RedisClient;
-      };
+  persistedQueries?: PersistedQueries;
   depthLimit?: DepthLimitValidationRule;
 }
 export interface RedisClient {
@@ -121,15 +131,9 @@ export interface DepthLimitValidationRule {
 }
 export interface Gateway {
   debug?: boolean;
-  serviceList?: {
-    name: string;
-    url: string;
-  }[];
+  serviceList?: ServiceList;
   supergraphSdlPath?: string;
-  forwardHeaders?: {
-    name: string;
-    as?: string;
-  }[];
+  forwardHeaders?: ForwardHeaders;
   persistedQueries?: boolean;
 }
 export interface OpenTelemetry {
