@@ -28,9 +28,9 @@ spec:
         env:
           - name: NODE_ENV
             value: "production"
-          # - name: PROCESS_COUNT
+          # - name: APOLLO_GATEWAY_PROCESS_COUNT
           #   value: "1"
-          # - name: CONFIG_FILE
+          # - name: APOLLO_GATEWAY_CONFIG_FILE
           #   value: /etc/apollo/gateway.yaml
         ports:
         - name: http

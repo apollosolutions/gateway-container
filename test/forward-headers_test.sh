@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export CONFIG_FILE=/etc/apollo/forward-headers.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/apollo/forward-headers.yaml
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \

@@ -1,12 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "https://www.apollographql.com/gateway-container",
-  "title": "Apollo Gateway Container Config",
+  "$id": "https://specs.apollographql.com/docker/gateway-container",
+  "title": "Apollo Gateway Container Configuration",
   "description": "Configuration for Apollo Server and Apollo Gateway running inside a Docker container",
   "type": "object",
   "additionalProperties": false,
   "properties": {
     "server": {
+      "title": "Server",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -20,6 +21,7 @@
           "type": "boolean"
         },
         "cors": {
+          "title": "CORS",
           "anyOf": [
             { "type": "boolean" },
             {
@@ -206,6 +208,7 @@
       }
     },
     "gateway": {
+      "title": "Gateway",
       "type": "object",
       "additionalProperties": false,
       "required": [],
@@ -256,6 +259,7 @@
       }
     },
     "openTelemetry": {
+      "title": "OpenTelemetry",
       "type": "object",
       "additionalProperties": false,
       "required": ["serviceName"],
@@ -271,6 +275,7 @@
   },
   "definitions": {
     "redisClientConfig": {
+      "title": "Redis Client",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -319,6 +324,7 @@
       }
     },
     "zipkinExporterConfig": {
+      "title": "Zipkin Exporter",
       "type": "object",
       "additionalProperties": false,
       "properties": {

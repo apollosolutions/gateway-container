@@ -14,8 +14,8 @@ services:
       - APOLLO_GRAPH_REF
       - APOLLO_KEY
       - APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT
-      - CONFIG_FILE
-      - PROCESS_COUNT
+      - APOLLO_GATEWAY_CONFIG_FILE
+      - APOLLO_GATEWAY_PROCESS_COUNT
       - SUPERGRAPH_SDL_PATH
     depends_on:
       - astronauts

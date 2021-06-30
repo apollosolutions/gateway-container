@@ -7,14 +7,15 @@ import Ajv from "ajv";
 import { convertGatewayConfig } from "./gateway.js";
 import { convertServerConfig } from "./server.js";
 
-const CONFIG_FILE = "/etc/apollo/gateway.yaml";
+const APOLLO_GATEWAY_CONFIG_FILE = "/etc/apollo/gateway.yaml";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * @returns {Promise<import("./types").ApolloGatewayContainerConfigReified>}
  */
 export async function fetchConfig() {
-  const file = process.env.CONFIG_FILE ?? CONFIG_FILE;
+  const file =
+    process.env.APOLLO_GATEWAY_CONFIG_FILE ?? APOLLO_GATEWAY_CONFIG_FILE;
 
   if (!existsSync(file)) {
     return {
@@ -48,7 +49,7 @@ async function getValidator() {
   const ajv = new Ajv({ allErrors: true });
 
   const schemaJSON = await readFile(
-    resolve(__dirname, "configschema.json"),
+    resolve(__dirname, "config.schema.json"),
     "utf-8"
   );
 
