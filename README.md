@@ -19,7 +19,7 @@ docker run -d \
 ```sh
 docker run -d \
   -e SUPERGRAPH_SDL_PATH=/etc/supergraph.graphql \
-  -v `pwd`/supergraph.graphql:/etc/supergraph.graphql \
+  -v $PWD/supergraph.graphql:/etc/supergraph.graphql \
   -p 4000:4000 \
   ghcr.io/apollosolutions/gateway
 ```
@@ -28,12 +28,14 @@ docker run -d \
 
 ```sh
 docker run -d \
-  -v `pwd`/config.yaml:/etc/apollo/gateway.yaml \
+  -v $PWD/config.yaml:/etc/apollo/gateway.yaml \
   -p 4000:4000 \
   ghcr.io/apollosolutions/gateway
 ```
 
 ## Configurable Functionality
+
+[Configuration in JSON Schema](https://github.com/apollosolutions/gateway-container/blob/main/src/config.schema.json)
 
 - [ ] Gateway configuration
   - [x] `serviceList`
@@ -45,6 +47,7 @@ docker run -d \
     - [x] Simple
     - [ ] Per-subgraph
     - [ ] Aggregation?
+  - [ ] Response header propagation
   - [ ] Uplink fallback
 - [ ] Server configuration
   - [x] `listen({ url, port })`
@@ -54,14 +57,12 @@ docker run -d \
   - [x] health/read/live check
   - [x] Usage reporting
   - [x] Global Agent proxy configuration
-  - [ ] OpenTelemetry
+  - [x] OpenTelemetry
     - [x] Zipkin
-    - [ ] Prometheus
   - [ ] APQ configuration
     - [x] Simple redis config
     - [ ] Cluster redis
     - [ ] Memcached
-    - [ ] Process-shared cache (no additional infra)
   - [ ] Validation
     - [x] Operation depth limiting
     - [ ] Required client identifiers

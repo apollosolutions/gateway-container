@@ -1,5 +1,5 @@
 /**
- * @param {import("./schema").RedisClientConfig} config
+ * @param {import("./schema").RedisClient} config
  */
 export function reifyConfig(config) {
   return {

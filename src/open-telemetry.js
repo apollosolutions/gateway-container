@@ -12,7 +12,7 @@ import { ZipkinExporter } from "@opentelemetry/exporter-zipkin";
  *  serviceName: string;
  *  maxQueueSize?: number | undefined;
  *  scheduledDelayMillis?: number | undefined;
- *  zipkin?: import("./schema").ZipkinExporterConfig
+ *  zipkin?: import("./schema").ZipkinExporter
  * }} params
  */
 export function setupOpentelemetry({

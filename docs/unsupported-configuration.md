@@ -77,3 +77,7 @@ https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
 ### Zipkin Exporter Config
 
 - `getExportRequestHeaders`
+
+### graphql-depth-limit
+
+- `ignore`

@@ -11,5 +11,5 @@ export type ContainerGatewayConfig = ApolloServerExpressConfig & {
 export type ApolloGatewayContainerConfigReified = {
   server: ContainerGatewayConfig;
   gateway: GatewayConfig;
-  openTelemetry: OpenTelemetry;
+  openTelemetry: OpenTelemetry | undefined;
 };
