@@ -1,4 +1,5 @@
 gateway:
+  supergraphSdlPath: /etc/apollo/supergraph.graphql
   forwardHeaders:
     - name: Authorization
     - name: x-api-key

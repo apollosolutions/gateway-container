@@ -2,3 +2,5 @@ server:
   persistedQueries:
     redis:
       host: redis
+gateway:
+  supergraphSdlPath: /etc/apollo/supergraph.graphql

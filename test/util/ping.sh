@@ -24,12 +24,12 @@ wait_on_gateway () {
 
     if [ $times -gt 20 ]; then
       echo "timeout waiting for gateway"
-      exit 1
+      clean_up_and_exit 1
     fi
   done
 }
 
 clean_up_and_exit () {
-  docker compose down
+  docker compose down --remove-orphans
   exit $1
 }

@@ -2,7 +2,12 @@
 
 source $(dirname $0)/util/ping.sh
 
-docker compose --file $(dirname $0)/docker-compose.yaml --env-file $(dirname $0)/.env.supergraph up --build -d
+export SUPERGRAPH_SDL_PATH=/etc/apollo/supergraph.graphql
+
+docker compose \
+  -f $(dirname $0)/docker-compose.yaml \
+  -f $(dirname $0)/compose-subgraphs.yaml \
+  up --build -d
 
 wait_on_gateway
 

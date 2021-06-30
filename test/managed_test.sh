@@ -2,8 +2,18 @@
 
 source $(dirname $0)/util/ping.sh
 
+if [[ -z $TEST_APOLLO_KEY ]]; then
+  echo "set TEST_APOLLO_KEY before running test"
+  exit 1
+fi
+
 export APOLLO_KEY=$TEST_APOLLO_KEY
-docker compose --file $(dirname $0)/docker-compose.yaml --env-file $(dirname $0)/.env.managed up --build -d
+export APOLLO_GRAPH_REF=lenny-gateway-container-test@current
+
+docker compose \
+  -f $(dirname $0)/docker-compose.yaml \
+  -f $(dirname $0)/compose-subgraphs.yaml \
+  up --build -d
 
 wait_on_gateway
 

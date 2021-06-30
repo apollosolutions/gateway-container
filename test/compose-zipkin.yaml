@@ -1,0 +1,6 @@
+services:
+  zipkin:
+    image: openzipkin/zipkin-slim
+    ports:
+      - "9411:9411"
+    command: --logging.level.zipkin2=DEBUG

@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
-source $(dirname $0)/util/ping.sh
+CWD="$(dirname $0)/"
+source ${CWD}util/ping.sh
 
-docker compose --file $(dirname $0)/docker-compose.yaml --env-file $(dirname $0)/.env.apq up --build -d
+export CONFIG_FILE=/etc/apollo/apq.yaml
+
+docker compose \
+  -f ${CWD}docker-compose.yaml \
+  -f ${CWD}compose-subgraphs.yaml \
+  -f ${CWD}compose-redis.yaml \
+  up --build -d
 
 wait_on_gateway
 
