@@ -22,12 +22,14 @@
     "apollo-server-cache-redis": "^3.0.0-preview.3",
     "global-agent": "^2.2.0",
     "graphql": "^15.5.1",
+    "graphql-depth-limit": "^1.1.0",
     "ioredis": "^4.27.6",
     "js-yaml": "^4.1.0",
     "pm2": "^5.1.0"
   },
   "devDependencies": {
     "@types/global-agent": "^2.1.0",
+    "@types/graphql-depth-limit": "^1.1.2",
     "@types/ioredis": "^4.26.4",
     "@types/js-yaml": "^4.0.1",
     "@types/node": "^15.12.4",

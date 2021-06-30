@@ -204,6 +204,9 @@
               }
             }
           ]
+        },
+        "depthLimit": {
+          "$ref": "#/definitions/depthLimitConfig"
         }
       }
     },
@@ -274,6 +277,16 @@
     }
   },
   "definitions": {
+    "depthLimitConfig": {
+      "title": "Depth Limit Validation Rule",
+      "description": "Configuration for https://github.com/stems/graphql-depth-limit",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxDepth"],
+      "properties": {
+        "maxDepth": { "type": "number" }
+      }
+    },
     "redisClientConfig": {
       "title": "Redis Client",
       "type": "object",

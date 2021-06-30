@@ -22,6 +22,7 @@ type Astronaut
 {
   id: ID! @join__field(graph: ASTRONAUTS)
   name: String @join__field(graph: ASTRONAUTS)
+  missions: [Mission!]! @join__field(graph: MISSIONS)
 }
 
 scalar join__FieldSet

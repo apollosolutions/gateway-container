@@ -53,7 +53,7 @@ async function getValidator() {
     "utf-8"
   );
 
-  /** @type import("ajv").JSONSchemaType<import("./schema.js").ApolloGatewayContainerConfig> */
+  /** @type import("ajv").JSONSchemaType<import("./schema.js").ApolloGatewayContainerConfiguration> */
   const schema = JSON.parse(schemaJSON);
 
   return ajv.compile(schema);

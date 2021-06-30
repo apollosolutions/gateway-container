@@ -63,7 +63,7 @@ docker run -d \
     - [ ] Memcached
     - [ ] Process-shared cache (no additional infra)
   - [ ] Validation
-    - [ ] Operation depth limiting
+    - [x] Operation depth limiting
     - [ ] Required client identifiers
   - [ ] Cache control
   - [ ] Error formatting

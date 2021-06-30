@@ -3,7 +3,7 @@ import { existsSync } from "fs";
 import { readFile } from "fs/promises";
 
 /**
- * @param {import("./schema").ApolloGatewayContainerConfig | null} config
+ * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
  * @returns {Promise<import("@apollo/gateway").GatewayConfig>}
  */
 export async function convertGatewayConfig(config) {
@@ -21,7 +21,7 @@ export async function convertGatewayConfig(config) {
 }
 
 /**
- * @param {import("./schema").ApolloGatewayContainerConfig | null} config
+ * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
  * @returns {Promise<import("@apollo/gateway").GatewayConfig>}
  */
 async function subgraphConfig(config) {

@@ -1,0 +1,5 @@
+server:
+  depthLimit:
+    maxDepth: 3
+gateway:
+  supergraphSdlPath: /etc/apollo/supergraph.graphql

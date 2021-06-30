@@ -11,6 +11,7 @@ const schema = buildFederatedSchema({
 
     extend type Astronaut @key(fields: "id") {
       id: ID! @external
+      missions: [Mission!]!
     }
 
     type Query {
@@ -29,6 +30,17 @@ const schema = buildFederatedSchema({
       },
       echoHeaderM(_s, { name }, ctx) {
         return ctx.req.header(name);
+      },
+    },
+    Astronaut: {
+      missions() {
+        return [
+          {
+            id: "1",
+            name: `Mission 1`,
+            crew: [{ id: "1" }, { id: "2" }, { id: "3" }],
+          },
+        ];
       },
     },
   },

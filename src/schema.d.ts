@@ -5,95 +5,82 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type CORS =
+  | boolean
+  | {
+      origin?: string | string[];
+      methods?: string | string[];
+      allowedHeaders?: string | string[];
+      exposedHeaders?: string | string[];
+      credentials?: boolean;
+      maxAge?: number;
+      preflightContinue?: boolean;
+      optionsSuccessStatus?: number;
+    };
+
 /**
  * Configuration for Apollo Server and Apollo Gateway running inside a Docker container
  */
-export interface ApolloGatewayContainerConfig {
-  server?: {
-    port?: string;
-    host?: string;
-    debug?: boolean;
-    cors?:
-      | boolean
-      | {
-          origin?: string | string[];
-          methods?: string | string[];
-          allowedHeaders?: string | string[];
-          exposedHeaders?: string | string[];
-          credentials?: boolean;
-          maxAge?: number;
-          preflightContinue?: boolean;
-          optionsSuccessStatus?: number;
-        };
-    introspection?: boolean;
-    usageReporting?:
-      | boolean
-      | {
-          sendVariableValues?:
-            | {
-                none: boolean;
-              }
-            | {
-                all: boolean;
-              }
-            | {
-                onlyNames: string[];
-              }
-            | {
-                exceptNames: string[];
-              };
-          sendHeaders?:
-            | {
-                none: boolean;
-              }
-            | {
-                all: boolean;
-              }
-            | {
-                onlyNames: string[];
-              }
-            | {
-                exceptNames: string[];
-              };
-          sendUnexecutableOperationDocuments?: boolean;
-          sendReportsImmediately?: boolean;
-          reportIntervalMs?: number;
-          maxUncompressedReportSize?: number;
-          maxAttempts?: number;
-          minimumRetryDelayMs?: number;
-        };
-    inlineTracing?: boolean;
-    /**
-     * Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
-     */
-    persistedQueries?:
-      | boolean
-      | {
-          ttl?: number;
-          redis?: RedisClientConfig;
-        };
-  };
-  gateway?: {
-    debug?: boolean;
-    serviceList?: {
-      name: string;
-      url: string;
-    }[];
-    supergraphSdlPath?: string;
-    forwardHeaders?: {
-      name: string;
-      as?: string;
-    }[];
-    persistedQueries?: boolean;
-  };
-  openTelemetry?: {
-    serviceName: string;
-    maxQueueSize?: number;
-    scheduledDelayMillis?: number;
-    zipkin?: ZipkinExporterConfig;
-  };
+export interface ApolloGatewayContainerConfiguration {
+  server?: Server;
+  gateway?: Gateway;
+  openTelemetry?: OpenTelemetry;
 }
-export interface RedisClientConfig {
+export interface Server {
+  port?: string;
+  host?: string;
+  debug?: boolean;
+  cors?: CORS;
+  introspection?: boolean;
+  usageReporting?:
+    | boolean
+    | {
+        sendVariableValues?:
+          | {
+              none: boolean;
+            }
+          | {
+              all: boolean;
+            }
+          | {
+              onlyNames: string[];
+            }
+          | {
+              exceptNames: string[];
+            };
+        sendHeaders?:
+          | {
+              none: boolean;
+            }
+          | {
+              all: boolean;
+            }
+          | {
+              onlyNames: string[];
+            }
+          | {
+              exceptNames: string[];
+            };
+        sendUnexecutableOperationDocuments?: boolean;
+        sendReportsImmediately?: boolean;
+        reportIntervalMs?: number;
+        maxUncompressedReportSize?: number;
+        maxAttempts?: number;
+        minimumRetryDelayMs?: number;
+      };
+  inlineTracing?: boolean;
+  /**
+   * Either false, or { ttl: number } & https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis
+   */
+  persistedQueries?:
+    | boolean
+    | {
+        ttl?: number;
+        redis?: RedisClient;
+      };
+  depthLimit?: DepthLimitValidationRule;
+}
+export interface RedisClient {
   port?: number;
   host?: string;
   family?: number;
@@ -126,7 +113,32 @@ export interface RedisClientConfig {
   autoPipeliningIgnoredCommands?: string[];
   maxScriptsCachingTime?: number;
 }
-export interface ZipkinExporterConfig {
+/**
+ * Configuration for https://github.com/stems/graphql-depth-limit
+ */
+export interface DepthLimitValidationRule {
+  maxDepth: number;
+}
+export interface Gateway {
+  debug?: boolean;
+  serviceList?: {
+    name: string;
+    url: string;
+  }[];
+  supergraphSdlPath?: string;
+  forwardHeaders?: {
+    name: string;
+    as?: string;
+  }[];
+  persistedQueries?: boolean;
+}
+export interface OpenTelemetry {
+  serviceName: string;
+  maxQueueSize?: number;
+  scheduledDelayMillis?: number;
+  zipkin?: ZipkinExporter;
+}
+export interface ZipkinExporter {
   headers?: {
     [k: string]: string;
   };

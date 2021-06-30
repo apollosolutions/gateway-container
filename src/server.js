@@ -6,9 +6,10 @@ import {
 import { BaseRedisCache } from "apollo-server-cache-redis";
 import Redis from "ioredis";
 import { reifyConfig as reifyRedisConfig } from "./redis.js";
+import { validationRules } from "./validation.js";
 
 /**
- * @param {import("./schema").ApolloGatewayContainerConfig} config
+ * @param {import("./schema").ApolloGatewayContainerConfiguration} config
  * @returns {import("./types").ContainerGatewayConfig}
  */
 export function convertServerConfig(config) {
@@ -39,6 +40,10 @@ export function convertServerConfig(config) {
       /** @type {(x: any) => x is any} */
       (x) => !!x
     ),
+
+    ...validationRules({
+      depthLimit: config.server?.depthLimit,
+    }),
   };
 }
 

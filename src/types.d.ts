@@ -1,5 +1,5 @@
 import { GatewayConfig } from "@apollo/gateway";
-import { ApolloGatewayContainerConfig } from "./schema";
+import { ApolloGatewayContainerConfiguration } from "./schema";
 import { ApolloServerExpressConfig, CorsOptions } from "apollo-server-express";
 
 export type ContainerGatewayConfig = ApolloServerExpressConfig & {
@@ -11,11 +11,11 @@ export type ContainerGatewayConfig = ApolloServerExpressConfig & {
 export type ApolloGatewayContainerConfigReified = {
   server: ContainerGatewayConfig;
   gateway: GatewayConfig;
-  openTelemetry: ApolloGatewayContainerConfig["openTelemetry"];
+  openTelemetry: ApolloGatewayContainerConfiguration["openTelemetry"];
 };
 
 type ApolloGatewayServerConfig = NonNullable<
-  ApolloGatewayContainerConfig["server"]
+  ApolloGatewayContainerConfiguration["server"]
 >;
 
 export type ForwardHeadersConfig = ContainerGatewayConfig["forwardHeaders"];
