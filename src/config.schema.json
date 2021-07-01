@@ -224,7 +224,42 @@
           ]
         },
         "depthLimit": {
-          "$ref": "#/definitions/depthLimitConfig"
+          "title": "Depth Limit Validation Rule",
+          "description": "Configuration for https://github.com/stems/graphql-depth-limit",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxDepth"],
+          "properties": {
+            "maxDepth": { "type": "number" }
+          }
+        },
+        "clientIdentifiers": {
+          "title": "Client Identifiers",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required": {
+              "anyOf": [
+                { "type": "boolean" },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "clientName": { "type": "boolean", "enum": [true] },
+                    "clientVersion": { "type": "boolean", "enum": [true] }
+                  }
+                }
+              ]
+            },
+            "clientNameHeader": {
+              "type": "string",
+              "default": "apollographql-client-name"
+            },
+            "clientVersionHeader": {
+              "type": "string",
+              "default": "apollographql-client-version"
+            }
+          }
         }
       }
     },
@@ -378,16 +413,6 @@
     }
   },
   "definitions": {
-    "depthLimitConfig": {
-      "title": "Depth Limit Validation Rule",
-      "description": "Configuration for https://github.com/stems/graphql-depth-limit",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["maxDepth"],
-      "properties": {
-        "maxDepth": { "type": "number" }
-      }
-    },
     "redisClientConfig": {
       "title": "Redis Client",
       "type": "object",

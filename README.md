@@ -45,7 +45,7 @@ docker run -d \
   - [x] Persisted queries to subgraphs
   - [ ] Request header propagation
     - [x] Simple
-    - [ ] Per-subgraph
+    - [x] Per-subgraph
     - [ ] Aggregation?
   - [ ] Response header propagation
   - [ ] Uplink fallback
@@ -59,13 +59,17 @@ docker run -d \
   - [x] Global Agent proxy configuration
   - [x] OpenTelemetry
     - [x] Zipkin
+  - [ ] Inline tracing
+    - [x] Disabling
+    - [ ] Sampling
   - [ ] APQ configuration
     - [x] Simple redis config
     - [ ] Cluster redis
     - [ ] Memcached
   - [ ] Validation
     - [x] Operation depth limiting
-    - [ ] Required client identifiers
+    - [x] Required client identifiers
+    - [ ] ...
   - [ ] Cache control
   - [ ] Error formatting
     - [x] Remove suggested fields

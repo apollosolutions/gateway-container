@@ -86,6 +86,7 @@ export interface Server {
   inlineTracing?: boolean;
   persistedQueries?: PersistedQueries;
   depthLimit?: DepthLimitValidationRule;
+  clientIdentifiers?: ClientIdentifiers;
 }
 export interface RedisClient {
   port?: number;
@@ -127,6 +128,16 @@ export interface RedisClient {
  */
 export interface DepthLimitValidationRule {
   maxDepth: number;
+}
+export interface ClientIdentifiers {
+  required?:
+    | boolean
+    | {
+        clientName?: true;
+        clientVersion?: true;
+      };
+  clientNameHeader?: string;
+  clientVersionHeader?: string;
 }
 export interface Gateway {
   debug?: boolean;

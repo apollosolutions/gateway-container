@@ -7,6 +7,7 @@ import { BaseRedisCache } from "apollo-server-cache-redis";
 import Redis from "ioredis";
 import { reifyConfig as reifyRedisConfig } from "./redis.js";
 import { validationRules } from "./validation.js";
+import { ApolloError, AuthenticationError } from "apollo-server";
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration} config
@@ -36,6 +37,7 @@ export function convertServerConfig(config) {
     plugins: [
       getUsageReportingPlugin(config.server?.usageReporting),
       getInlineTracingPlugin(config.server?.inlineTracing),
+      getClientIdentifierEnforcementPlugin(config.server?.clientIdentifiers),
     ].filter(
       /** @type {(x: any) => x is any} */
       (x) => !!x
@@ -70,15 +72,48 @@ function getPersistedQueriesConfig(config) {
 }
 
 /**
- * @param {import("./schema").UsageReporting | undefined} config
+ * @param {import("./schema").UsageReporting | undefined} usageConfig
+ * @param {import("./schema").ClientIdentifiers | undefined} [clientIdentifiersConfig]
  */
-function getUsageReportingPlugin(config) {
-  if (config === false) {
+function getUsageReportingPlugin(usageConfig, clientIdentifiersConfig) {
+  if (usageConfig === false) {
     return ApolloServerPluginUsageReportingDisabled();
   }
 
-  if (typeof config === "object") {
-    return ApolloServerPluginUsageReporting(config);
+  /**
+   * @template TContext
+   * @type {import("apollo-server-core").GenerateClientInfo<TContext> | undefined}
+   */
+  let generateClientInfo = undefined;
+  if (
+    clientIdentifiersConfig?.clientNameHeader ||
+    clientIdentifiersConfig?.clientVersionHeader
+  ) {
+    generateClientInfo = ({ request }) => {
+      const clientName =
+        request.http?.headers?.get(
+          clientIdentifiersConfig?.clientNameHeader ??
+            "apollographql-client-name"
+        ) ?? undefined;
+
+      const clientVersion =
+        request.http?.headers?.get(
+          clientIdentifiersConfig?.clientVersionHeader ??
+            "apollographql-client-version"
+        ) ?? undefined;
+
+      return {
+        clientName,
+        clientVersion,
+      };
+    };
+  }
+
+  if (typeof usageConfig === "object") {
+    return ApolloServerPluginUsageReporting({
+      ...usageConfig,
+      generateClientInfo,
+    });
   }
 
   return null;
@@ -93,4 +128,35 @@ function getInlineTracingPlugin(config) {
   }
 
   return null;
+}
+
+/**
+ * @param {import("./schema").ClientIdentifiers | undefined} config
+ * @returns {import("apollo-server-core").PluginDefinition | undefined}
+ */
+function getClientIdentifierEnforcementPlugin(config) {
+  if (config?.required) {
+    const nameHeader = config.clientNameHeader ?? "apollographql-client-name";
+    const versionHeader =
+      config.clientVersionHeader ?? "apollographql-client-version";
+
+    const nameRequired =
+      typeof config.required === "object" && config.required.clientName;
+    const versionRequired =
+      typeof config.required === "object" && config.required.clientVersion;
+
+    return {
+      requestDidStart({ request }) {
+        const name = request?.http?.headers?.has(nameHeader);
+        const version = request?.http?.headers?.has(versionHeader);
+        if ((nameRequired && !name) || (versionRequired && !version)) {
+          throw new ApolloError(
+            `client identification headers (${nameHeader}, ${versionHeader}) not provided`,
+            "CLIENT_IDENTIFIERS_MISSING"
+          );
+        }
+        return Promise.resolve();
+      },
+    };
+  }
 }

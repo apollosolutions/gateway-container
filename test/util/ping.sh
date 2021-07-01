@@ -1,11 +1,9 @@
 ping_gateway_once () {
   port=${1:-"4000"}
 
-  actual=$(curl -s http://localhost:${port}/graphql \
-    -H 'content-type: application/json' \
-    --data '{"query":"{__typename}"}')
+  actual=$(curl -s http://localhost:${port}/.well-known/apollo/server-health)
 
-  if [[ $actual == '{"data":{"__typename":"Query"}}' ]]; then
+  if [[ $actual == '{"status":"pass"}' ]]; then
     return 1
   else
     return 0
