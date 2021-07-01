@@ -2,5 +2,17 @@ gateway:
   supergraphSdlPath: /etc/apollo/supergraph.graphql
   forwardHeaders:
     - name: Authorization
-    - name: x-api-key
-      as: forwarded-api-key
+    - name: forwarded-api-key
+      value:
+        header: x-api-key
+    - name: x-astronauts
+      subgraphs:
+        only: [astronauts]
+    - name: x-not-astronauts
+      subgraphs:
+        except: [astronauts]
+    - name: x-hardcoded
+      value: somevalue
+    - name: x-from-env
+      value:
+        env: APOLLO_GATEWAY_CONFIG_FILE

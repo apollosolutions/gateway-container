@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "https://specs.apollographql.com/docker/gateway-container",
+  "$id": "https://specs.apollo.dev/docker/gateway-container/v0.1",
   "title": "Apollo Gateway Container Configuration",
   "description": "Configuration for Apollo Server and Apollo Gateway running inside a Docker container",
   "type": "object",
@@ -263,15 +263,96 @@
           "items": {
             "anyOf": [
               {
+                "title": "AllHeaders",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["all"],
+                "properties": {
+                  "all": { "type": "boolean", "enum": [true] },
+                  "except": { "type": "array", "items": { "type": "string" } },
+                  "subgraphs": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["only"],
+                        "properties": {
+                          "only": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["except"],
+                        "properties": {
+                          "except": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "title": "Specific Header",
                 "type": "object",
                 "additionalProperties": false,
                 "required": ["name"],
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "name": { "type": "string" },
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["env"],
+                        "properties": {
+                          "env": { "type": "string" }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["header"],
+                        "properties": {
+                          "header": { "type": "string" }
+                        }
+                      }
+                    ]
                   },
-                  "as": {
-                    "type": "string"
+                  "subgraphs": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["only"],
+                        "properties": {
+                          "only": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["except"],
+                        "properties": {
+                          "except": {
+                            "type": "array",
+                            "items": { "type": "string" }
+                          }
+                        }
+                      }
+                    ]
                   }
                 }
               }
@@ -323,6 +404,7 @@
         "password": {
           "type": "object",
           "additionalProperties": false,
+          "required": ["env"],
           "properties": {
             "env": {
               "description": "Name of environment variable",
@@ -341,9 +423,7 @@
         "autoResendUnfulfilledCommands": { "type": "boolean" },
         "lazyConnect": { "type": "boolean" },
         "tls": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {}
+          "type": "object"
         },
         "keyPrefix": { "type": "string" },
         "maxRetriesPerRequest": { "type": "number" },

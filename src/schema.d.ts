@@ -66,10 +66,7 @@ export type ServiceList = {
   name: string;
   url: string;
 }[];
-export type ForwardHeaders = {
-  name: string;
-  as?: string;
-}[];
+export type ForwardHeaders = (AllHeaders | SpecificHeader)[];
 
 /**
  * Configuration for Apollo Server and Apollo Gateway running inside a Docker container
@@ -103,7 +100,7 @@ export interface RedisClient {
     /**
      * Name of environment variable
      */
-    env?: string;
+    env: string;
   };
   username?: string;
   dropBufferSupport?: boolean;
@@ -115,7 +112,9 @@ export interface RedisClient {
   autoResubscribe?: boolean;
   autoResendUnfulfilledCommands?: boolean;
   lazyConnect?: boolean;
-  tls?: {};
+  tls?: {
+    [k: string]: unknown;
+  };
   keyPrefix?: string;
   maxRetriesPerRequest?: number;
   stringNumbers?: boolean;
@@ -135,6 +134,35 @@ export interface Gateway {
   supergraphSdlPath?: string;
   forwardHeaders?: ForwardHeaders;
   persistedQueries?: boolean;
+}
+export interface AllHeaders {
+  all: true;
+  except?: string[];
+  subgraphs?:
+    | {
+        only: string[];
+      }
+    | {
+        except: string[];
+      };
+}
+export interface SpecificHeader {
+  name: string;
+  value?:
+    | string
+    | {
+        env: string;
+      }
+    | {
+        header: string;
+      };
+  subgraphs?:
+    | {
+        only: string[];
+      }
+    | {
+        except: string[];
+      };
 }
 export interface OpenTelemetry {
   serviceName: string;
