@@ -18,8 +18,8 @@
     "@opentelemetry/resources": "^0.22.0",
     "@opentelemetry/tracing": "^0.22.0",
     "ajv": "^8.6.0",
-    "apollo-server": "^3.0.0-preview.3",
-    "apollo-server-cache-redis": "^3.0.0-preview.3",
+    "apollo-server": "^3.0.0-rc.0",
+    "apollo-server-cache-redis": "^3.0.0-rc.0",
     "global-agent": "^2.2.0",
     "graphql": "^15.5.1",
     "graphql-depth-limit": "^1.1.0",
@@ -43,11 +43,11 @@
     "compose": "rover supergraph compose --config test/config/supergraph.yaml > test/config/supergraph.graphql"
   },
   "resolutions": {
-    "**/apollo-server-core": "^3.0.0-preview.3",
-    "**/apollo-server-caching": "^3.0.0-preview.1",
-    "**/apollo-server-env": "^3.0.0-preview.3",
-    "**/apollo-server-types": "^3.0.0-preview.3",
-    "**/apollo-server-errors": "^3.0.0-preview.2",
-    "**/apollo-reporting-protobuf": "^3.0.0-preview.1"
+    "**/apollo-server-core": "^3.0.0-rc.0",
+    "**/apollo-server-caching": "^3.0.0-rc.0",
+    "**/apollo-server-env": "^3.0.0-rc.0",
+    "**/apollo-server-types": "^3.0.0-rc.0",
+    "**/apollo-server-errors": "^3.0.0-rc.0",
+    "**/apollo-reporting-protobuf": "^3.0.0-rc.0"
   }
 }
