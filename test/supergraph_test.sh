@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export SUPERGRAPH_SDL_PATH=/etc/apollo/supergraph.graphql
+export APOLLO_SCHEMA_CONFIG_EMBEDDED=/etc/config/supergraph.graphql
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \

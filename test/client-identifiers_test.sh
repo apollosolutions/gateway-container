@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export APOLLO_GATEWAY_CONFIG_FILE=/etc/apollo/client-identifiers.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/client-identifiers.yaml
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \

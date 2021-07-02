@@ -4,4 +4,4 @@ server:
       clientName: true
     clientNameHeader: my-client-name
 gateway:
-  supergraphSdlPath: /etc/apollo/supergraph.graphql
+  supergraphSdlPath: /etc/config/supergraph.graphql

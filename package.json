@@ -24,8 +24,7 @@
     "graphql": "^15.5.1",
     "graphql-depth-limit": "^1.1.0",
     "ioredis": "^4.27.6",
-    "js-yaml": "^4.1.0",
-    "pm2": "^5.1.0"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/global-agent": "^2.1.0",

@@ -2,7 +2,7 @@ services:
   gateway:
     build: ../
     volumes:
-      - ./config:/etc/apollo
+      - ./config:/etc/config
     ports:
       - "4000:4000"
     environment:
@@ -11,5 +11,4 @@ services:
       - APOLLO_KEY
       - APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT
       - APOLLO_GATEWAY_CONFIG_FILE
-      - APOLLO_GATEWAY_PROCESS_COUNT
-      - SUPERGRAPH_SDL_PATH
+      - APOLLO_SCHEMA_CONFIG_EMBEDDED

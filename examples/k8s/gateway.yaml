@@ -20,24 +20,22 @@ spec:
         name: gateway
         resources:
           requests:
-            cpu: "4"
-            memory: 7168Mi
+            cpu: "1"
+            memory: 1024Mi # TODO validate
           limits:
-            cpu: "4"
-            memory: 7168Mi
+            cpu: "1"
+            memory: 1024Mi # TODO validate
         env:
           - name: NODE_ENV
             value: "production"
-          # - name: APOLLO_GATEWAY_PROCESS_COUNT
-          #   value: "1"
           # - name: APOLLO_GATEWAY_CONFIG_FILE
-          #   value: /etc/apollo/gateway.yaml
+          #   value: /etc/config/gateway.yaml
         ports:
         - name: http
           containerPort: 4000
         volumeMounts:
           - name: gateway-config
-            mountPath: /etc/apollo
+            mountPath: /etc/config
         livenessProbe:
           httpGet:
             path: /.well-known/apollo/server-health
@@ -68,7 +66,7 @@ data:
         origin: "*"
     gateway:
       debug: true
-      supergraphSdlPath: /etc/apollo/supergraph.graphql
+      supergraphSdlPath: /etc/config/supergraph.graphql
   supergraph.graphql: |
     schema
       @core(feature: "https://specs.apollo.dev/core/v0.1"),

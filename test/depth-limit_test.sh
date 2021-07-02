@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export APOLLO_GATEWAY_CONFIG_FILE=/etc/apollo/depth-limit.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/depth-limit.yaml
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \

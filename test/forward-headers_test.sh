@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export APOLLO_GATEWAY_CONFIG_FILE=/etc/apollo/forward-headers.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/forward-headers.yaml
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \
@@ -41,7 +41,7 @@ ACTUAL="$(curl -s http://localhost:4000/graphql \
 EOF
 )"
 
-EXPECTED='{"data":{"a1":"Bearer abcd1234","a2":"supersecret","a3":"auto-forwarded","a4":"1","a5":null,"a6":"somevalue","a7":"/etc/apollo/forward-headers.yaml","m1":"Bearer abcd1234","m2":"supersecret","m3":"auto-forwarded","m4":null,"m5":"2","m6":"somevalue","m7":"/etc/apollo/forward-headers.yaml"}}'
+EXPECTED='{"data":{"a1":"Bearer abcd1234","a2":"supersecret","a3":"auto-forwarded","a4":"1","a5":null,"a6":"somevalue","a7":"/etc/config/forward-headers.yaml","m1":"Bearer abcd1234","m2":"supersecret","m3":"auto-forwarded","m4":null,"m5":"2","m6":"somevalue","m7":"/etc/config/forward-headers.yaml"}}'
 
 if [[ "$ACTUAL" = "$EXPECTED" ]]; then
   echo "Success!"

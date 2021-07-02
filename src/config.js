@@ -7,7 +7,7 @@ import Ajv from "ajv";
 import { convertGatewayConfig } from "./gateway.js";
 import { convertServerConfig } from "./server.js";
 
-const APOLLO_GATEWAY_CONFIG_FILE = "/etc/apollo/gateway.yaml";
+const APOLLO_GATEWAY_CONFIG_FILE = "/etc/config/gateway.yaml";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**

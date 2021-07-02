@@ -43,14 +43,17 @@ async function subgraphConfig(config) {
     };
   }
 
-  if (process.env.SUPERGRAPH_SDL_PATH) {
-    if (!existsSync(process.env.SUPERGRAPH_SDL_PATH)) {
+  if (process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED) {
+    if (!existsSync(process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED)) {
       throw new Error(
-        `cannot find supergraph sdl file ${process.env.SUPERGRAPH_SDL_PATH}`
+        `cannot find supergraph sdl file ${process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED}`
       );
     }
     return {
-      supergraphSdl: await readFile(process.env.SUPERGRAPH_SDL_PATH, "utf-8"),
+      supergraphSdl: await readFile(
+        process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED,
+        "utf-8"
+      ),
     };
   }
 

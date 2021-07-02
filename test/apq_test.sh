@@ -3,7 +3,7 @@
 CWD="$(dirname $0)/"
 source ${CWD}util/ping.sh
 
-export APOLLO_GATEWAY_CONFIG_FILE=/etc/apollo/apq.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/apq.yaml
 
 docker compose \
   -f ${CWD}docker-compose.yaml \

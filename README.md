@@ -18,7 +18,7 @@ docker run -d \
 
 ```sh
 docker run -d \
-  -e SUPERGRAPH_SDL_PATH=/etc/supergraph.graphql \
+  -e APOLLO_SCHEMA_CONFIG_EMBEDDED=/etc/supergraph.graphql \
   -v $PWD/supergraph.graphql:/etc/supergraph.graphql \
   -p 4000:4000 \
   ghcr.io/apollosolutions/gateway
@@ -28,7 +28,7 @@ docker run -d \
 
 ```sh
 docker run -d \
-  -v $PWD/config.yaml:/etc/apollo/gateway.yaml \
+  -v $PWD/config.yaml:/etc/config/gateway.yaml \
   -p 4000:4000 \
   ghcr.io/apollosolutions/gateway
 ```
@@ -43,10 +43,7 @@ docker run -d \
   - [x] `debug`
   - [x] Managed federation
   - [x] Persisted queries to subgraphs
-  - [ ] Request header propagation
-    - [x] Simple
-    - [x] Per-subgraph
-    - [ ] Aggregation?
+  - [x] Request header propagation
   - [ ] Response header propagation
   - [ ] Uplink fallback
 - [ ] Server configuration
@@ -86,11 +83,10 @@ docker run -d \
 
 ### Container-specific
 
-- [x] APOLLO_GATEWAY_PROCESS_COUNT [default=number of cores]
 - [x] PORT [default=4000]
 - [x] HOST [default=localhost]
-- [x] APOLLO_GATEWAY_CONFIG_FILE [default=/etc/apollo/gateway.yaml]
-- [x] SUPERGRAPH_SDL_PATH
+- [x] APOLLO_GATEWAY_CONFIG_FILE [default=/etc/config/gateway.yaml]
+- [x] APOLLO_SCHEMA_CONFIG_EMBEDDED
 - [x] GLOBAL_AGENT_HTTP_PROXY
 - [x] GLOBAL_AGENT_HTTPS_PROXY
 - [x] GLOBAL_AGENT_NO_PROXY
