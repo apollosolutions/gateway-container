@@ -1,0 +1,4 @@
+server:
+  requireOperationNames: true
+gateway:
+  supergraphSdlPath: /etc/config/supergraph.graphql

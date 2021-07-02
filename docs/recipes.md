@@ -257,6 +257,13 @@ gateway:
         header: original-header
 ```
 
+## Require Operation Names
+
+```yaml
+server:
+  requireOperationNames: true
+```
+
 ## TLS Certificates
 
 [Built into Apollo Server](https://www.apollographql.com/docs/apollo-server/proxy-configuration/#specifying-a-custom-ssltls-certificate).

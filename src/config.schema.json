@@ -261,6 +261,7 @@
             }
           }
         },
+        "requireOperationNames": { "type": "boolean" },
         "landingPage": { "type": "boolean" },
         "playground": {
           "anyOf": [{ "type": "boolean", "enum": [true] }, { "type": "object" }]

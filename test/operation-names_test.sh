@@ -2,7 +2,7 @@
 
 source $(dirname $0)/util/ping.sh
 
-export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/client-identifiers.yaml
+export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/operation-names.yaml
 
 docker compose \
   -f $(dirname $0)/docker-compose.yaml \
@@ -13,7 +13,7 @@ wait_on_gateway
 
 ACTUAL="$(curl -s http://localhost:4000/graphql -H 'content-type: application/json' --data '{"query":"{mission(id: \"1\") { name crew { name } } }"}')"
 
-EXPECTED='{"errors":[{"message":"Execution denied: client identification headers (my-client-name, apollographql-client-version) not provided","extensions":{"code":"CLIENT_IDENTIFIERS_MISSING"}}]}'
+EXPECTED='{"errors":[{"message":"Execution denied: Unnamed operation","extensions":{"code":"UNNAMED_OPERATION"}}]}'
 
 if [[ "$ACTUAL" = "$EXPECTED" ]]; then
   echo "Invalid query: Success!"
@@ -27,7 +27,7 @@ ACTUAL2="$(curl -s http://localhost:4000/graphql \
   -H 'content-type: application/json' \
   -H 'my-client-name: hello' \
   -H 'apollographql-client-version: 1.0' \
-  --data '{"query":"{mission(id: \"1\") { name crew { name } } }"}')"
+  --data '{"query":"query Test {mission(id: \"1\") { name crew { name } } }", "operationName": "Test"}')"
 
 EXPECTED2='{"data":{"mission":{"name":"Mission 1","crew":[{"name":"Astronaut 1"},{"name":"Astronaut 2"},{"name":"Astronaut 3"}]}}}'
 

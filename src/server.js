@@ -40,6 +40,7 @@ export function convertServerConfig(config) {
       getUsageReportingPlugin(config.server?.usageReporting),
       getInlineTracingPlugin(config.server?.inlineTracing),
       getClientIdentifierEnforcementPlugin(config.server?.clientIdentifiers),
+      getRequiredOperationNamePlugin(config.server?.requireOperationNames),
       ...getLandingPagePlugins(
         config.server?.landingPage,
         config.server?.playground
@@ -157,11 +158,40 @@ function getClientIdentifierEnforcementPlugin(config) {
         const version = request?.http?.headers?.has(versionHeader);
         if ((nameRequired && !name) || (versionRequired && !version)) {
           throw new ApolloError(
-            `client identification headers (${nameHeader}, ${versionHeader}) not provided`,
+            `Execution denied: client identification headers (${nameHeader}, ${versionHeader}) not provided`,
             "CLIENT_IDENTIFIERS_MISSING"
           );
         }
         return Promise.resolve();
+      },
+    };
+  }
+}
+
+/**
+ * @param {boolean | undefined} config
+ * @returns {import("apollo-server-core").PluginDefinition | undefined}
+ */
+function getRequiredOperationNamePlugin(config) {
+  if (config === true) {
+    return {
+      async requestDidStart({ queryHash, request }) {
+        return {
+          async parsingDidStart() {
+            if (!request.operationName) {
+              const error = new ApolloError(
+                "Execution denied: Unnamed operation",
+                "UNNAMED_OPERATION"
+              );
+
+              Object.assign(error.extensions, {
+                queryHash: queryHash,
+              });
+
+              throw error;
+            }
+          },
+        };
       },
     };
   }

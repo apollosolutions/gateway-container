@@ -87,6 +87,7 @@ export interface Server {
   persistedQueries?: PersistedQueries;
   depthLimit?: DepthLimitValidationRule;
   clientIdentifiers?: ClientIdentifiers;
+  requireOperationNames?: boolean;
   landingPage?: boolean;
   playground?:
     | true
