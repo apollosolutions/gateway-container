@@ -35,58 +35,7 @@ docker run -d \
 
 ## Configurable Functionality
 
-[Configuration in JSON Schema](https://github.com/apollosolutions/gateway-container/blob/main/src/config.schema.json)
-
-- [ ] Gateway configuration
-  - [x] `serviceList`
-  - [x] `supergraphSdl`
-  - [x] `debug`
-  - [x] Managed federation
-  - [x] Persisted queries to subgraphs
-  - [x] Request header propagation
-  - [ ] Response header propagation
-  - [ ] Uplink fallback
-- [ ] Server configuration
-  - [x] `listen({ url, port })`
-  - [x] CORS
-  - [x] `introspection`
-  - [x] `debug`
-  - [x] health/read/live check
-  - [x] Usage reporting
-  - [x] Global Agent proxy configuration
-  - [x] OpenTelemetry
-    - [x] Zipkin
-  - [ ] Inline tracing
-    - [x] Disabling
-    - [ ] Sampling
-  - [ ] APQ configuration
-    - [x] Simple redis config
-    - [ ] Cluster redis
-    - [ ] Memcached
-  - [ ] Validation
-    - [x] Operation depth limiting
-    - [x] Required client identifiers
-    - [ ] ...
-  - [ ] Cache control
-  - [ ] Error formatting
-    - [x] Remove suggested fields
-  - [ ] Landing page
-
-## Environment Variables
-
-### Built-in
-
-- [x] APOLLO_KEY
-- [x] APOLLO_GRAPH_REF
-- [x] APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT [default=https://uplink.api.apollographql.com/]
-- [x] NODE_EXTRA_CA_CERTS
-
-### Container-specific
-
-- [x] PORT [default=4000]
-- [x] HOST [default=localhost]
-- [x] APOLLO_GATEWAY_CONFIG_FILE [default=/etc/config/gateway.yaml]
-- [x] APOLLO_SCHEMA_CONFIG_EMBEDDED
-- [x] GLOBAL_AGENT_HTTP_PROXY
-- [x] GLOBAL_AGENT_HTTPS_PROXY
-- [x] GLOBAL_AGENT_NO_PROXY
+- [Configuration in JSON Schema](https://github.com/apollosolutions/gateway-container/blob/main/src/config.schema.json)
+- [Configuration Recipes](https://github.com/apollosolutions/gateway-container/blob/main/docs/recipes.md)
+- [Best Practices Enabled by Default](https://github.com/apollosolutions/gateway-container/blob/main/docs/best-practices.md)
+- [Unsupported Configuration](https://github.com/apollosolutions/gateway-container/blob/main/docs/unsupported-configuration.md)
