@@ -12,4 +12,5 @@ title: TODO
   - [ ] Memcached
 - [ ] Cache control
 - [ ] Error formatting
-- [ ] Landing page
+- [ ] Logging/Reporting
+  - [ ] Error rates

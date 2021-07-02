@@ -193,6 +193,13 @@ server:
   introspection: false
 ```
 
+## Landing Page
+
+```yaml
+server:
+  landingPage: false
+```
+
 ## Open Telemetry
 
 ```yaml
@@ -200,6 +207,19 @@ openTelemetry:
   serviceName: my-gateway
   zipkin:
     url: http://zipkin:9411/api/v2/spans
+```
+
+## Playground
+
+```yaml
+server:
+  playground: true
+```
+
+```yaml
+server:
+  playground:
+    editor.theme: dark
 ```
 
 ## Request Header Propagation

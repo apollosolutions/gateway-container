@@ -2,12 +2,14 @@ import {
   ApolloServerPluginUsageReporting,
   ApolloServerPluginUsageReportingDisabled,
   ApolloServerPluginInlineTraceDisabled,
+  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageGraphQLPlayground,
 } from "apollo-server-core";
 import { BaseRedisCache } from "apollo-server-cache-redis";
 import Redis from "ioredis";
 import { reifyConfig as reifyRedisConfig } from "./redis.js";
 import { validationRules } from "./validation.js";
-import { ApolloError, AuthenticationError } from "apollo-server";
+import { ApolloError } from "apollo-server";
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration} config
@@ -38,6 +40,10 @@ export function convertServerConfig(config) {
       getUsageReportingPlugin(config.server?.usageReporting),
       getInlineTracingPlugin(config.server?.inlineTracing),
       getClientIdentifierEnforcementPlugin(config.server?.clientIdentifiers),
+      ...getLandingPagePlugins(
+        config.server?.landingPage,
+        config.server?.playground
+      ),
     ].filter(
       /** @type {(x: any) => x is any} */
       (x) => !!x
@@ -159,4 +165,26 @@ function getClientIdentifierEnforcementPlugin(config) {
       },
     };
   }
+}
+
+/**
+ * @param {boolean | undefined} landingPage
+ * @param {boolean | { [k: string]: unknown; } | undefined} playground
+ */
+function getLandingPagePlugins(landingPage, playground) {
+  const plugins = [];
+
+  if (landingPage === false) {
+    plugins.push(ApolloServerPluginLandingPageDisabled());
+  }
+
+  if (playground) {
+    plugins.push(
+      ApolloServerPluginLandingPageGraphQLPlayground(
+        typeof playground === "object" ? playground : {}
+      )
+    );
+  }
+
+  return plugins;
 }

@@ -87,6 +87,12 @@ export interface Server {
   persistedQueries?: PersistedQueries;
   depthLimit?: DepthLimitValidationRule;
   clientIdentifiers?: ClientIdentifiers;
+  landingPage?: boolean;
+  playground?:
+    | true
+    | {
+        [k: string]: unknown;
+      };
 }
 export interface RedisClient {
   port?: number;
