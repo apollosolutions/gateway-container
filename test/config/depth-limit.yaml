@@ -1,5 +1,7 @@
 server:
   depthLimit:
     maxDepth: 3
+  errors:
+    removeStacktrace: true
 gateway:
   supergraphSdlPath: /etc/config/supergraph.graphql
