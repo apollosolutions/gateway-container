@@ -80,6 +80,42 @@ server:
   inlineTracing: false
 ```
 
+## Errors
+
+### Remove Suggestions
+
+On by default when `NODE_ENV === 'production'`.
+
+```yaml
+server:
+  errors:
+    removeSuggestions: true
+```
+
+### Remove Stacktraces
+
+On by default when `NODE_ENV === 'production'`.
+
+```yaml
+server:
+  errors:
+    removeStacktrace: true
+```
+
+### Mask Errors by Message
+
+Replaces matching errors with a generic "Internal server error".
+
+```yaml
+server:
+  errors:
+    mask:
+      - message:
+          matches: a substring
+      - message:
+          startsWith: a prefix
+```
+
 ## Gateway Schema
 
 ### Managed Federation

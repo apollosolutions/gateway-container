@@ -10,6 +10,7 @@ import Redis from "ioredis";
 import { reifyConfig as reifyRedisConfig } from "./redis.js";
 import { validationRules } from "./validation.js";
 import { ApolloError } from "apollo-server";
+import { GraphQLError } from "graphql";
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration} config
@@ -23,18 +24,7 @@ export function convertServerConfig(config) {
       config.server?.persistedQueries
     ),
 
-    formatError(error) {
-      // remove stacktrace
-      if (error.extensions) {
-        delete error.extensions.exception;
-      }
-
-      // remove "helpful" suggestions
-      return {
-        ...error,
-        message: error.message.replace(/Did you mean (.*)\?/g, "").trim(),
-      };
-    },
+    ...getErrorFormatter(config.server?.errors),
 
     plugins: [
       getUsageReportingPlugin(config.server?.usageReporting),
@@ -53,6 +43,63 @@ export function convertServerConfig(config) {
     ...validationRules({
       depthLimit: config.server?.depthLimit,
     }),
+  };
+}
+
+const DID_YOU_MEAN = /Did you mean (.*)\?/g;
+
+/**
+ * @param {import("./schema").ErrorOptions | undefined} config
+ * @returns {{ formatError: (error: GraphQLError) => import("graphql").GraphQLFormattedError }}
+ */
+function getErrorFormatter(config) {
+  const reifiedConfig = config ?? {};
+
+  if (!("removeStacktrace" in reifiedConfig)) {
+    reifiedConfig.removeStacktrace = process.env.NODE_ENV === "production";
+  }
+
+  if (!("removeSuggestions" in reifiedConfig)) {
+    reifiedConfig.removeSuggestions = process.env.NODE_ENV === "production";
+  }
+
+  return {
+    formatError(error) {
+      for (const mask of reifiedConfig.mask ?? []) {
+        if (mask.message) {
+          if ("matches" in mask.message) {
+            if (error.message.includes(mask.message.matches)) {
+              return new Error("Internal server error");
+            }
+          } else if ("startsWith" in mask.message) {
+            if (error.message.startsWith(mask.message.startsWith)) {
+              return new Error("Internal server error");
+            }
+          }
+        }
+      }
+
+      if (reifiedConfig.removeStacktrace && error.extensions) {
+        delete error.extensions.exception;
+      }
+
+      let message = error.message;
+      let exception = error.extensions?.exception;
+
+      if (reifiedConfig.removeSuggestions) {
+        message = error.message.replace(DID_YOU_MEAN, "").trim();
+        exception = error.extensions?.exception?.replace(DID_YOU_MEAN, "");
+      }
+
+      return {
+        ...error,
+        message,
+        extensions: {
+          ...error.extensions,
+          ...(exception ? { exception } : {}),
+        },
+      };
+    },
   };
 }
 
@@ -179,16 +226,11 @@ function getRequiredOperationNamePlugin(config) {
         return {
           async parsingDidStart() {
             if (!request.operationName) {
-              const error = new ApolloError(
+              throw new ApolloError(
                 "Execution denied: Unnamed operation",
-                "UNNAMED_OPERATION"
+                "UNNAMED_OPERATION",
+                { queryHash }
               );
-
-              Object.assign(error.extensions, {
-                queryHash: queryHash,
-              });
-
-              throw error;
             }
           },
         };

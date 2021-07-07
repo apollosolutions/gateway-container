@@ -265,6 +265,41 @@
         "landingPage": { "type": "boolean" },
         "playground": {
           "anyOf": [{ "type": "boolean", "enum": [true] }, { "type": "object" }]
+        },
+        "errors": {
+          "title": "Error Options",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "removeStacktrace": { "type": "boolean" },
+            "removeSuggestions": { "type": "boolean" },
+            "mask": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["message"],
+                "properties": {
+                  "message": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["matches"],
+                        "properties": { "matches": { "type": "string" } }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["startsWith"],
+                        "properties": { "startsWith": { "type": "string" } }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },

@@ -94,6 +94,7 @@ export interface Server {
     | {
         [k: string]: unknown;
       };
+  errors?: ErrorOptions;
 }
 export interface RedisClient {
   port?: number;
@@ -145,6 +146,19 @@ export interface ClientIdentifiers {
       };
   clientNameHeader?: string;
   clientVersionHeader?: string;
+}
+export interface ErrorOptions {
+  removeStacktrace?: boolean;
+  removeSuggestions?: boolean;
+  mask?: {
+    message:
+      | {
+          matches: string;
+        }
+      | {
+          startsWith: string;
+        };
+  }[];
 }
 export interface Gateway {
   debug?: boolean;
