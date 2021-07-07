@@ -1,4 +1,6 @@
 server:
   requireOperationNames: true
+  errors:
+    removeStacktrace: true
 gateway:
   supergraphSdlPath: /etc/config/supergraph.graphql
