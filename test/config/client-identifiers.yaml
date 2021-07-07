@@ -3,5 +3,7 @@ server:
     required:
       clientName: true
     clientNameHeader: my-client-name
+  errors:
+    removeStacktrace: true
 gateway:
   supergraphSdlPath: /etc/config/supergraph.graphql
