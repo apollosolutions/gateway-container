@@ -10,7 +10,7 @@ fi
 export APOLLO_KEY=$TEST_APOLLO_KEY
 export APOLLO_GRAPH_REF=lenny-gateway-container-test@current
 
-docker compose \
+docker-compose \
   -f $(dirname $0)/docker-compose.yaml \
   -f $(dirname $0)/compose-subgraphs.yaml \
   up --build -d
