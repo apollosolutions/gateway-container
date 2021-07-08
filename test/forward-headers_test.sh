@@ -4,7 +4,7 @@ source $(dirname $0)/util/ping.sh
 
 export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/forward-headers.yaml
 
-docker compose \
+docker-compose \
   -f $(dirname $0)/docker-compose.yaml \
   -f $(dirname $0)/compose-subgraphs.yaml \
   up --build -d

@@ -5,7 +5,7 @@ source ${CWD}util/ping.sh
 
 export APOLLO_GATEWAY_CONFIG_FILE=/etc/config/apq.yaml
 
-docker compose \
+docker-compose \
   -f ${CWD}docker-compose.yaml \
   -f ${CWD}compose-subgraphs.yaml \
   -f ${CWD}compose-redis.yaml \

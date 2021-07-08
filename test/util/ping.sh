@@ -28,6 +28,6 @@ wait_on_gateway () {
 }
 
 clean_up_and_exit () {
-  docker compose down --remove-orphans
+  docker-compose down --remove-orphans
   exit $1
 }

@@ -40,6 +40,10 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "ts": "json2ts src/config.schema.json > src/schema.d.ts",
-    "compose": "rover supergraph compose --config test/config/supergraph.yaml > test/config/supergraph.graphql"
+    "compose": "rover supergraph compose --config test/config/supergraph.yaml > test/config/supergraph.graphql",
+    "test": "echo 'no tests yet'"
+  },
+  "resolutions": {
+    "**/apollo-server-core": "^3.0.0"
   }
 }

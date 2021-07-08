@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: ["*"]
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.16.1
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile --no-progress
+      - run: yarn test
+      - run: yarn tsc
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
+      - run: bash test/test_all.sh
+        env:
+          TEST_APOLLO_KEY: ${{ secrets.TEST_APOLLO_KEY }}
