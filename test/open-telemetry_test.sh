@@ -19,7 +19,7 @@ sleep 1
 
 ACTUAL="$(curl -s 'http://localhost:9411/api/v2/spans?serviceName=gateway' -H 'content-type: application/json')"
 
-EXPECTED='["gateway.execute","gateway.fetch","gateway.plan","gateway.postprocessing","gateway.request","gateway.validate"]'
+EXPECTED='["gateway.execute","gateway.fetch","gateway.plan","gateway.postprocessing","gateway.request","gateway.validate","http get","http post","middleware - <anonymous>","middleware - corsmiddleware","middleware - expressinit","middleware - jsonparser","middleware - query","router - /"]'
 
 if [[ "$ACTUAL" = "$EXPECTED" ]]; then
   echo "Success!"

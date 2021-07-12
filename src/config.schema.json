@@ -210,7 +210,7 @@
           "title": "Persisted Queries",
           "description": "Either false, or { ttl: number; redis: https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis }",
           "anyOf": [
-            { "type": "boolean" },
+            { "type": "boolean", "enum": [false] },
             {
               "type": "object",
               "additionalProperties": false,
@@ -443,6 +443,7 @@
       "additionalProperties": false,
       "required": ["serviceName"],
       "properties": {
+        "debug": { "type": "boolean" },
         "serviceName": { "type": "string" },
         "maxQueueSize": { "type": "number", "default": 1000 },
         "scheduledDelayMillis": { "type": "number", "default": 1000 },

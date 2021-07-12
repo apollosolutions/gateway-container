@@ -1,6 +1,7 @@
 gateway:
   supergraphSdlPath: /etc/config/supergraph.graphql
 openTelemetry:
+  debug: true
   serviceName: gateway
   zipkin:
     url: http://zipkin:9411/api/v2/spans

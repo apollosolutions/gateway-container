@@ -1,12 +1,14 @@
-import { RemoteGraphQLDataSource } from "@apollo/gateway";
-import { existsSync } from "fs";
-import { readFile } from "fs/promises";
+const { RemoteGraphQLDataSource } = require("@apollo/gateway");
+const { existsSync } = require("fs");
+const { readFile } = require("fs/promises");
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
  * @returns {Promise<import("@apollo/gateway").GatewayConfig>}
  */
-export async function convertGatewayConfig(config) {
+module.exports.convertGatewayConfig = async function convertGatewayConfig(
+  config
+) {
   return {
     ...(config?.gateway ?? {}),
     ...(await subgraphConfig(config)),
@@ -19,7 +21,7 @@ export async function convertGatewayConfig(config) {
       });
     },
   };
-}
+};
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
