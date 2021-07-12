@@ -1,44 +1,64 @@
-import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
-import { Resource } from "@opentelemetry/resources";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
-import { BatchSpanProcessor } from "@opentelemetry/tracing";
-import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
-import { NodeTracerProvider } from "@opentelemetry/node";
-import { ZipkinExporter } from "@opentelemetry/exporter-zipkin";
+const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
+const { Resource } = require("@opentelemetry/resources");
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+const { BatchSpanProcessor } = require("@opentelemetry/tracing");
+const {
+  ExpressInstrumentation,
+} = require("@opentelemetry/instrumentation-express");
+const { NodeTracerProvider } = require("@opentelemetry/node");
+const { ZipkinExporter } = require("@opentelemetry/exporter-zipkin");
 
 /**
  * @param {{
+ *  debug?: boolean;
  *  serviceName: string;
  *  maxQueueSize?: number | undefined;
  *  scheduledDelayMillis?: number | undefined;
  *  zipkin?: import("./schema").ZipkinExporter
  * }} params
+ * @param {import("./schema").Server | undefined} serverOptions
  */
-export function setupOpentelemetry({
-  serviceName,
-  maxQueueSize,
-  scheduledDelayMillis,
-  zipkin,
-}) {
-  diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+module.exports.setupOpentelemetry = function setupOpentelemetry(
+  { debug, serviceName, maxQueueSize, scheduledDelayMillis, zipkin },
+  serverOptions
+) {
+  if (debug) {
+    diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
+  }
 
   const resource = new Resource({
     "service.name": serviceName,
   });
 
-  /** @type {import("@opentelemetry/instrumentation").Instrumentation[]} */
-  const instrumentations = [
-    new HttpInstrumentation(),
-    new ExpressInstrumentation(),
-  ];
-
-  registerInstrumentations({
-    instrumentations: [instrumentations],
-  });
-
   const provider = new NodeTracerProvider({
     resource: Resource.default().merge(resource),
+  });
+
+  provider.register();
+
+  // NOTE: keep in sync with getClientIdentifierEnforcementPlugin() in server.js
+  const clientNameHeader =
+    serverOptions?.clientIdentifiers?.clientNameHeader ??
+    "apollographql-client-name";
+  const clientVersionHeader =
+    serverOptions?.clientIdentifiers?.clientVersionHeader ??
+    "apollographql-client-version";
+
+  registerInstrumentations({
+    instrumentations: [
+      new HttpInstrumentation({
+        requestHook(span, request) {
+          if ("headers" in request) {
+            span.setAttributes({
+              clientName: request.headers[clientNameHeader],
+              clientVersion: request.headers[clientVersionHeader],
+            });
+          }
+        },
+      }),
+      new ExpressInstrumentation(),
+    ],
   });
 
   if (zipkin) {
@@ -50,6 +70,4 @@ export function setupOpentelemetry({
       })
     );
   }
-
-  provider.register();
-}
+};

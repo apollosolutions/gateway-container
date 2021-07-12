@@ -1,26 +1,22 @@
-import { readFile } from "fs/promises";
-import { existsSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
-import { load } from "js-yaml";
-import Ajv from "ajv";
-import { convertGatewayConfig } from "./gateway.js";
-import { convertServerConfig } from "./server.js";
+const { readFile } = require("fs/promises");
+const { existsSync } = require("fs");
+const { resolve } = require("path");
+const { load } = require("js-yaml");
+const Ajv = require("ajv");
 
 const APOLLO_GATEWAY_CONFIG_FILE = "/etc/config/gateway.yaml";
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
- * @returns {Promise<import("./types").ApolloGatewayContainerConfigReified>}
+ * @returns {Promise<import("./schema.js").ApolloGatewayContainerConfiguration>}
  */
-export async function fetchConfig() {
+module.exports.fetchConfig = async function fetchConfig() {
   const file =
     process.env.APOLLO_GATEWAY_CONFIG_FILE ?? APOLLO_GATEWAY_CONFIG_FILE;
 
   if (!existsSync(file)) {
     return {
-      server: convertServerConfig({}),
-      gateway: await convertGatewayConfig({}),
+      server: {},
+      gateway: {},
       openTelemetry: undefined,
     };
   }
@@ -31,11 +27,7 @@ export async function fetchConfig() {
   const validate = await getValidator();
 
   if (validate(yaml)) {
-    return {
-      server: convertServerConfig(yaml),
-      gateway: await convertGatewayConfig(yaml),
-      openTelemetry: yaml.openTelemetry,
-    };
+    return yaml;
   }
 
   throw new Error(
@@ -43,10 +35,12 @@ export async function fetchConfig() {
       .map((e) => ` - ${e.schemaPath}: ${e.message}`)
       .join("\n")}\n`
   );
-}
+};
 
 async function getValidator() {
-  const ajv = new Ajv({ allErrors: true });
+  // for typescript
+  const klass = Ajv.default;
+  const ajv = new klass({ allErrors: true });
 
   const schemaJSON = await readFile(
     resolve(__dirname, "config.schema.json"),

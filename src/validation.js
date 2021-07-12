@@ -1,9 +1,9 @@
-import depthLimit from "graphql-depth-limit";
+const depthLimit = require("graphql-depth-limit");
 
 /**
  * @param {{ depthLimit?: import("./schema").DepthLimitValidationRule }} configs
  */
-export function validationRules(configs) {
+module.exports.validationRules = function validationRules(configs) {
   const validationRules = [];
 
   if (configs.depthLimit) {
@@ -13,4 +13,4 @@ export function validationRules(configs) {
   if (validationRules.length) {
     return { validationRules };
   }
-}
+};

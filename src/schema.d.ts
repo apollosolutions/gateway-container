@@ -57,7 +57,7 @@ export type UsageReporting =
  * Either false, or { ttl: number; redis: https://github.com/luin/ioredis/blob/HEAD/API.md#new_Redis }
  */
 export type PersistedQueries =
-  | boolean
+  | false
   | {
       ttl?: number;
       redis?: RedisClient;
@@ -197,6 +197,7 @@ export interface SpecificHeader {
       };
 }
 export interface OpenTelemetry {
+  debug?: boolean;
   serviceName: string;
   maxQueueSize?: number;
   scheduledDelayMillis?: number;

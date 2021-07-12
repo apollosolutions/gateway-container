@@ -1,22 +1,21 @@
-import {
+const {
   ApolloServerPluginUsageReporting,
   ApolloServerPluginUsageReportingDisabled,
   ApolloServerPluginInlineTraceDisabled,
   ApolloServerPluginLandingPageDisabled,
   ApolloServerPluginLandingPageGraphQLPlayground,
-} from "apollo-server-core";
-import { BaseRedisCache } from "apollo-server-cache-redis";
-import Redis from "ioredis";
-import { reifyConfig as reifyRedisConfig } from "./redis.js";
-import { validationRules } from "./validation.js";
-import { ApolloError } from "apollo-server";
-import { GraphQLError } from "graphql";
+} = require("apollo-server-core");
+const { BaseRedisCache } = require("apollo-server-cache-redis");
+const Redis = require("ioredis");
+const { reifyConfig: reifyRedisConfig } = require("./redis");
+const { validationRules } = require("./validation");
+const { ApolloError } = require("apollo-server");
+const { GraphQLError } = require("graphql");
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration} config
- * @returns {import("./types").ContainerGatewayConfig}
  */
-export function convertServerConfig(config) {
+module.exports.convertServerConfig = function convertServerConfig(config) {
   return {
     ...(config.server ?? {}),
 
@@ -44,7 +43,7 @@ export function convertServerConfig(config) {
       depthLimit: config.server?.depthLimit,
     }),
   };
-}
+};
 
 const DID_YOU_MEAN = /Did you mean (.*)\?/g;
 
@@ -105,6 +104,7 @@ function getErrorFormatter(config) {
 
 /**
  * @param {import("./schema").PersistedQueries | undefined} config
+ * @returns {false | import("apollo-server-core").PersistedQueryOptions | undefined}
  */
 function getPersistedQueriesConfig(config) {
   if (config === false) {

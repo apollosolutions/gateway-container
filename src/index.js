@@ -1,30 +1,39 @@
-import { fetchConfig } from "./config.js";
-import { setupOpentelemetry } from "./open-telemetry.js";
+(async () => {
+  const { fetchConfig } = require("./config");
+  const { setupOpentelemetry } = require("./open-telemetry");
 
-const config = await fetchConfig();
+  const config = await fetchConfig();
 
-if (config.openTelemetry) {
-  setupOpentelemetry(config.openTelemetry);
-}
+  if (config.openTelemetry) {
+    setupOpentelemetry(config.openTelemetry, config.server);
+  }
 
-import { ApolloServer } from "apollo-server";
-import { ApolloGateway } from "@apollo/gateway";
-import { bootstrap as bootstrapGlobalAgent } from "global-agent";
+  const { ApolloServer } = require("apollo-server");
+  const { ApolloGateway } = require("@apollo/gateway");
+  const { bootstrap: bootstrapGlobalAgent } = require("global-agent");
+  const { convertGatewayConfig } = require("./gateway");
+  const { convertServerConfig } = require("./server");
 
-bootstrapGlobalAgent();
+  bootstrapGlobalAgent();
 
-const gateway = new ApolloGateway(config.gateway);
+  const [gatewayConfig, serverConfig] = await Promise.all([
+    convertGatewayConfig(config),
+    convertServerConfig(config),
+  ]);
 
-const server = new ApolloServer({
-  ...config.server,
-  gateway,
-  context(ctx) {
-    return ctx;
-  },
-});
+  const gateway = new ApolloGateway(gatewayConfig);
 
-const port = parseInt(config.server.port ?? process.env.PORT ?? "4000", 10);
-const host = config.server.host ?? process.env.HOST;
+  const server = new ApolloServer({
+    ...serverConfig,
+    gateway,
+    context(ctx) {
+      return ctx;
+    },
+  });
 
-const { url } = await server.listen({ port, host });
-console.log(`Gateway running at ${url}`);
+  const port = parseInt(serverConfig.port ?? process.env.PORT ?? "4000", 10);
+  const host = serverConfig.host ?? process.env.HOST;
+
+  const { url } = await server.listen({ port, host });
+  console.log(`Gateway running at ${url}`);
+})();
