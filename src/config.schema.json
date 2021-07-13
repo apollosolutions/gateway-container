@@ -329,8 +329,19 @@
             }
           }
         },
-        "supergraphSdlPath": {
-          "type": "string"
+        "supergraphSdl": {
+          "title": "Supergraph Config",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path"],
+          "properties": {
+            "path": {
+              "type": "string",
+              "default": "/etc/config/supergraph.graph"
+            },
+            "hotReload": { "type": "boolean", "default": true },
+            "hotReloadIntervalMs": { "type": "number", "default": 10000 }
+          }
         },
         "forwardHeaders": {
           "title": "Forward Headers",

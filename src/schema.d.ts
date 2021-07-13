@@ -163,9 +163,14 @@ export interface ErrorOptions {
 export interface Gateway {
   debug?: boolean;
   serviceList?: ServiceList;
-  supergraphSdlPath?: string;
+  supergraphSdl?: SupergraphConfig;
   forwardHeaders?: ForwardHeaders;
   persistedQueries?: boolean;
+}
+export interface SupergraphConfig {
+  path: string;
+  hotReload?: boolean;
+  hotReloadIntervalMs?: number;
 }
 export interface AllHeaders {
   all: true;

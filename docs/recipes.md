@@ -139,6 +139,10 @@ docker run \
 
 ### Supergraph SDL
 
+By default, the gateway will check for changes to the supergraph SDL file every
+10 seconds. Mount your supergraph SDL file as a Kubernetes ConfigMap and you
+can update it without restarting the gateway.
+
 ```bash
 docker run \
   -e APOLLO_SCHEMA_CONFIG_EMBEDDED=/etc/config/supergraph.graphql \
@@ -149,7 +153,18 @@ or
 
 ```yaml
 gateway:
-  supergraphSdlPath: /etc/config/supergraph.graphql
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql
+```
+
+### Disable hot reloading
+
+```yaml
+gateway:
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql
+    hotReload: false
+    hotReloadIntervalMs: 60000
 ```
 
 ### Service List

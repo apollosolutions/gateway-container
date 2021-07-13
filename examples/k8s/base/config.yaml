@@ -5,4 +5,5 @@ server:
   introspection: true
 gateway:
   debug: true
-  supergraphSdlPath: /etc/config/supergraph.graphql
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql

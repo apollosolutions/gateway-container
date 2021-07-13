@@ -2,4 +2,5 @@ server:
   playground:
     editor.theme: light
 gateway:
-  supergraphSdlPath: /etc/config/supergraph.graphql
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql

@@ -1,5 +1,6 @@
 gateway:
-  supergraphSdlPath: /etc/config/supergraph.graphql
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql
   forwardHeaders:
     - name: Authorization
     - name: forwarded-api-key
