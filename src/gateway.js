@@ -1,6 +1,7 @@
 const { RemoteGraphQLDataSource } = require("@apollo/gateway");
 const { existsSync } = require("fs");
-const { readFile } = require("fs/promises");
+const { readFile, stat } = require("fs/promises");
+const crypto = require("crypto");
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
@@ -34,28 +35,32 @@ async function subgraphConfig(config) {
     };
   }
 
-  if (config?.gateway?.supergraphSdlPath) {
-    if (!existsSync(config.gateway.supergraphSdlPath)) {
-      throw new Error(
-        `cannot find supergraph sdl file ${config.gateway.supergraphSdlPath}`
-      );
-    }
-    return {
-      supergraphSdl: await readFile(config.gateway.supergraphSdlPath, "utf-8"),
-    };
-  }
+  const supergraphSdlPath =
+    config?.gateway?.supergraphSdlPath ??
+    process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED;
 
-  if (process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED) {
-    if (!existsSync(process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED)) {
-      throw new Error(
-        `cannot find supergraph sdl file ${process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED}`
-      );
-    }
+  if (supergraphSdlPath) {
     return {
-      supergraphSdl: await readFile(
-        process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED,
-        "utf-8"
-      ),
+      experimental_pollInterval: 10000,
+      async experimental_updateSupergraphSdl() {
+        if (!existsSync(supergraphSdlPath)) {
+          throw new Error(
+            `cannot find supergraph sdl file ${supergraphSdlPath}`
+          );
+        }
+
+        const supergraphSdl = await readFile(supergraphSdlPath, "utf-8");
+
+        const id = crypto
+          .createHash("sha256")
+          .update(supergraphSdl)
+          .digest("hex");
+
+        return {
+          id,
+          supergraphSdl,
+        };
+      },
     };
   }
 

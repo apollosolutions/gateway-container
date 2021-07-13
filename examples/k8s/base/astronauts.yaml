@@ -16,14 +16,14 @@ spec:
         app: astronauts
     spec:
       containers:
-      - image: astronauts
-        name: astronauts
-        resources: {}
-        env:
-          - name: NODE_ENV
-            value: "production"
-        ports:
-        - containerPort: 4001
+        - image: astronauts
+          name: astronauts
+          resources: {}
+          env:
+            - name: NODE_ENV
+              value: "production"
+          ports:
+            - containerPort: 4001
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gateway
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - image: gateway
+          name: gateway
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1024Mi # TODO validate
+            limits:
+              cpu: "1"
+              memory: 1024Mi # TODO validate
+          env:
+            - name: NODE_ENV
+              value: "production"
+            # - name: APOLLO_GATEWAY_CONFIG_FILE
+            #   value: /etc/config/gateway.yaml
+          ports:
+            - name: http
+              containerPort: 4000
+          volumeMounts:
+            - name: gateway-config
+              mountPath: /etc/config
+          livenessProbe:
+            httpGet:
+              path: /.well-known/apollo/server-health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /.well-known/apollo/server-health
+              port: http
+      volumes:
+        - name: gateway-config
+          configMap:
+            name: gateway-files
+            items:
+              - key: config.yaml
+                path: gateway.yaml
+              - key: supergraph.graphql
+                path: supergraph.graphql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 4000

@@ -16,14 +16,14 @@ spec:
         app: missions
     spec:
       containers:
-      - image: missions
-        name: missions
-        resources: {}
-        env:
-          - name: NODE_ENV
-            value: "production"
-        ports:
-        - containerPort: 4002
+        - image: missions
+          name: missions
+          resources: {}
+          env:
+            - name: NODE_ENV
+              value: "production"
+          ports:
+            - containerPort: 4002
 ---
 apiVersion: v1
 kind: Service

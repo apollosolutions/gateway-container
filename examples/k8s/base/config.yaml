@@ -1,0 +1,8 @@
+server:
+  debug: true
+  cors:
+    origin: "*"
+  introspection: true
+gateway:
+  debug: true
+  supergraphSdlPath: /etc/config/supergraph.graphql
