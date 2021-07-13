@@ -1,6 +1,6 @@
 const { RemoteGraphQLDataSource } = require("@apollo/gateway");
 const { existsSync } = require("fs");
-const { readFile, stat } = require("fs/promises");
+const { readFile } = require("fs/promises");
 const crypto = require("crypto");
 
 /**
@@ -36,32 +36,51 @@ async function subgraphConfig(config) {
   }
 
   const supergraphSdlPath =
-    config?.gateway?.supergraphSdlPath ??
+    config?.gateway?.supergraphSdl?.path ??
     process.env.APOLLO_SCHEMA_CONFIG_EMBEDDED;
 
   if (supergraphSdlPath) {
-    return {
-      experimental_pollInterval: 10000,
-      async experimental_updateSupergraphSdl() {
-        if (!existsSync(supergraphSdlPath)) {
-          throw new Error(
-            `cannot find supergraph sdl file ${supergraphSdlPath}`
-          );
-        }
+    if (!existsSync(supergraphSdlPath)) {
+      throw new Error(`cannot find supergraph sdl file ${supergraphSdlPath}`);
+    }
 
-        const supergraphSdl = await readFile(supergraphSdlPath, "utf-8");
+    // default hot reloading to true
+    if (config?.gateway?.supergraphSdl?.hotReload === false) {
+      const supergraphSdl = await readFile(supergraphSdlPath, "utf-8");
 
-        const id = crypto
-          .createHash("sha256")
-          .update(supergraphSdl)
-          .digest("hex");
+      return {
+        supergraphSdl,
+      };
+    } else {
+      return {
+        // this is technically unnecessary, but we need to override the config
+        // object and it must be a valid graphql string.
+        supergraphSdl: await readFile(supergraphSdlPath, "utf-8"),
 
-        return {
-          id,
-          supergraphSdl,
-        };
-      },
-    };
+        experimental_pollInterval:
+          config?.gateway?.supergraphSdl?.hotReloadIntervalMs ?? 10000,
+
+        async experimental_updateSupergraphSdl() {
+          if (!existsSync(supergraphSdlPath)) {
+            throw new Error(
+              `cannot find supergraph sdl file ${supergraphSdlPath}`
+            );
+          }
+
+          const supergraphSdl = await readFile(supergraphSdlPath, "utf-8");
+
+          const id = crypto
+            .createHash("sha256")
+            .update(supergraphSdl)
+            .digest("hex");
+
+          return {
+            id,
+            supergraphSdl,
+          };
+        },
+      };
+    }
   }
 
   return {};

@@ -3,4 +3,5 @@ server:
     redis:
       host: redis
 gateway:
-  supergraphSdlPath: /etc/config/supergraph.graphql
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql
