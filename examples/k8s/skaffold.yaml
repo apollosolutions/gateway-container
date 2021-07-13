@@ -17,8 +17,6 @@ build:
       docker:
         dockerfile: Dockerfile
 deploy:
-  kubectl:
-    manifests:
-    - astronauts.yaml
-    - gateway.yaml
-    - missions.yaml
+  kustomize:
+    paths:
+      - base
