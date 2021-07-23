@@ -140,7 +140,9 @@ function createDataSource({ name: subgraphName, url, forwardHeaders, apq }) {
      */
     willSendRequest({ request, context }) {
       for (const header of AUTO_FORWARDED_HEADERS) {
-        request.http.headers.set(header, context.req?.header(header));
+        if (!request.http.headers.get(header)) {
+          request.http.headers.set(header, context.req?.header(header));
+        }
       }
 
       if (forwardHeaders) {
