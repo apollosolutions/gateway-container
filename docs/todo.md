@@ -10,7 +10,6 @@ title: TODO
 - [ ] APQ configuration
   - [ ] Cluster redis
   - [ ] Memcached
-- [ ] Cache control
 - [ ] Error formatting
 - [ ] Logging/Reporting
   - [ ] Error rates

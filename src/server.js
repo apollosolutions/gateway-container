@@ -26,7 +26,10 @@ module.exports.convertServerConfig = function convertServerConfig(config) {
     ...getErrorFormatter(config.server?.errors),
 
     plugins: [
-      getUsageReportingPlugin(config.server?.usageReporting),
+      getUsageReportingPlugin(
+        config.server?.usageReporting,
+        config.server?.clientIdentifiers
+      ),
       getInlineTracingPlugin(config.server?.inlineTracing),
       getClientIdentifierEnforcementPlugin(config.server?.clientIdentifiers),
       getRequiredOperationNamePlugin(config.server?.requireOperationNames),
@@ -127,11 +130,15 @@ function getPersistedQueriesConfig(config) {
 
 /**
  * @param {import("./schema").UsageReporting | undefined} usageConfig
- * @param {import("./schema").ClientIdentifiers | undefined} [clientIdentifiersConfig]
+ * @param {import("./schema").ClientIdentifiers | undefined} clientIdentifiersConfig
  */
 function getUsageReportingPlugin(usageConfig, clientIdentifiersConfig) {
   if (usageConfig === false) {
     return ApolloServerPluginUsageReportingDisabled();
+  }
+
+  if (!process.env.APOLLO_KEY) {
+    return null;
   }
 
   /**
@@ -163,14 +170,10 @@ function getUsageReportingPlugin(usageConfig, clientIdentifiersConfig) {
     };
   }
 
-  if (typeof usageConfig === "object") {
-    return ApolloServerPluginUsageReporting({
-      ...usageConfig,
-      generateClientInfo,
-    });
-  }
-
-  return null;
+  return ApolloServerPluginUsageReporting({
+    ...(usageConfig && typeof usageConfig === "object" ? usageConfig : {}),
+    generateClientInfo,
+  });
 }
 
 /**
