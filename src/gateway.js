@@ -2,6 +2,10 @@ const { RemoteGraphQLDataSource } = require("@apollo/gateway");
 const { existsSync } = require("fs");
 const { readFile } = require("fs/promises");
 const crypto = require("crypto");
+const {
+  GraphQLDataSourceRequestKind,
+} = require("@apollo/gateway/dist/datasources/types");
+const { assert } = require("./assert");
 
 /**
  * @param {import("./schema").ApolloGatewayContainerConfiguration | null} config
@@ -136,58 +140,81 @@ function createDataSource({ name: subgraphName, url, forwardHeaders, apq }) {
     }
 
     /**
-     * @param {{ request: any; context: import("apollo-server-express").ExpressContext; }} params
+     * @template {import("apollo-server-express").ExpressContext} TContext
+     * @param {import("@apollo/gateway").GraphQLDataSourceProcessOptions<TContext>} options
      */
-    willSendRequest({ request, context }) {
-      for (const header of AUTO_FORWARDED_HEADERS) {
-        if (!request.http.headers.get(header)) {
-          request.http.headers.set(header, context.req?.header(header));
-        }
-      }
+    willSendRequest(options) {
+      if (options.kind === GraphQLDataSourceRequestKind.INCOMING_OPERATION) {
+        const { request, context } = options;
+        assert(request, "willSendRequest({ request }) is missing");
+        assert(
+          request.http,
+          "willSendRequest({ request: { http } }) is missing"
+        );
 
-      if (forwardHeaders) {
-        for (const config of forwardHeaders) {
-          const onlySubgraphs =
-            config.subgraphs && "only" in config.subgraphs
-              ? config.subgraphs.only
-              : [subgraphName];
-          const exceptSubgraphs =
-            config.subgraphs && "except" in config.subgraphs
-              ? config.subgraphs.except
-              : [];
-
-          if (
-            exceptSubgraphs.includes(subgraphName) ||
-            !onlySubgraphs.includes(subgraphName)
-          ) {
-            continue;
+        for (const header of AUTO_FORWARDED_HEADERS) {
+          const incomingHeader = context.req.header(header);
+          if (!request.http.headers.get(header) && incomingHeader) {
+            request.http.headers.set(header, incomingHeader);
           }
+        }
 
-          if ("all" in config && config.all && context.req) {
-            for (const [name, value] of Object.entries(context.req.headers)) {
-              if (config.except?.includes(name)) {
-                continue;
+        if (forwardHeaders) {
+          for (const config of forwardHeaders) {
+            const onlySubgraphs =
+              config.subgraphs && "only" in config.subgraphs
+                ? config.subgraphs.only
+                : [subgraphName];
+            const exceptSubgraphs =
+              config.subgraphs && "except" in config.subgraphs
+                ? config.subgraphs.except
+                : [];
+
+            if (
+              exceptSubgraphs.includes(subgraphName) ||
+              !onlySubgraphs.includes(subgraphName)
+            ) {
+              continue;
+            }
+
+            if ("all" in config && config.all && context.req) {
+              for (const [name, value] of Object.entries(context.req.headers)) {
+                if (config.except?.includes(name)) {
+                  continue;
+                }
+
+                if (Array.isArray(value)) {
+                  for (const v of value) {
+                    if (v) request.http.headers.set(name, v);
+                  }
+                } else if (value) {
+                  request.http.headers.set(name, value);
+                }
+              }
+            } else if ("name" in config) {
+              let value = context.req?.header(config.name);
+              if (typeof config.value === "string") {
+                value = config.value;
+              } else if (
+                typeof config.value === "object" &&
+                "env" in config.value
+              ) {
+                value = process.env[config.value.env];
+              } else if (
+                typeof config.value === "object" &&
+                "header" in config.value
+              ) {
+                value = context.req?.header(config.value.header);
               }
 
-              request.http.headers.set(name, value);
+              if (Array.isArray(value)) {
+                for (const v of value) {
+                  if (v) request.http.headers.set(config.name, v);
+                }
+              } else if (value) {
+                request.http.headers.set(config.name, value);
+              }
             }
-          } else if ("name" in config) {
-            let value = context.req?.header(config.name);
-            if (typeof config.value === "string") {
-              value = config.value;
-            } else if (
-              typeof config.value === "object" &&
-              "env" in config.value
-            ) {
-              value = process.env[config.value.env];
-            } else if (
-              typeof config.value === "object" &&
-              "header" in config.value
-            ) {
-              value = context.req?.header(config.value.header);
-            }
-
-            request.http.headers.set(config.name, value);
           }
         }
       }
