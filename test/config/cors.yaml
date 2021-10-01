@@ -1,0 +1,14 @@
+server:
+  cors:
+    origin: https://studio.apollographql.com
+    credentials: true
+    allowedHeaders:
+      - content-type
+      - cookies
+      - x-whatever
+gateway:
+  supergraphSdl:
+    path: /etc/config/supergraph.graphql
+  forwardHeaders:
+    - name: Cookies
+    - name: x-whatever
