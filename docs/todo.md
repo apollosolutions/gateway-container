@@ -13,3 +13,6 @@ title: TODO
 - [ ] Error formatting
 - [ ] Logging/Reporting
   - [ ] Error rates
+- [ ] Timeouts
+  - [ ] For the whole request
+  - [ ] Per RemoteGraphQLDataSource
