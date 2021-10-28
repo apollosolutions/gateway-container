@@ -16,3 +16,5 @@ title: TODO
 - [ ] Timeouts
   - [ ] For the whole request
   - [ ] Per RemoteGraphQLDataSource
+- [ ] Enable keep-alive by default
+  - [ ] Provide an option to disable?
