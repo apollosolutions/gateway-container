@@ -225,10 +225,10 @@ function getClientIdentifierEnforcementPlugin(config) {
 function getRequiredOperationNamePlugin(config) {
   if (config === true) {
     return {
-      async requestDidStart({ queryHash, request }) {
+      async requestDidStart({ queryHash }) {
         return {
-          async parsingDidStart() {
-            if (!request.operationName) {
+          async didResolveOperation(requestContext) {
+            if (!requestContext.operationName) {
               throw new ApolloError(
                 "Execution denied: Unnamed operation",
                 "UNNAMED_OPERATION",
