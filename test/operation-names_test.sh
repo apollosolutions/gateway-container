@@ -27,7 +27,7 @@ ACTUAL2="$(curl -s http://localhost:4000/graphql \
   -H 'content-type: application/json' \
   -H 'my-client-name: hello' \
   -H 'apollographql-client-version: 1.0' \
-  --data '{"query":"query Test {mission(id: \"1\") { name crew { name } } }", "operationName": "Test"}')"
+  --data '{"query":"query Test {mission(id: \"1\") { name crew { name } } }"}')"
 
 EXPECTED2='{"data":{"mission":{"name":"Mission 1","crew":[{"name":"Astronaut 1"},{"name":"Astronaut 2"},{"name":"Astronaut 3"}]}}}'
 
